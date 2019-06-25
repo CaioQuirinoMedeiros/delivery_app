@@ -1,7 +1,7 @@
 import { createAppContainer, createStackNavigator } from "react-navigation";
 
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
+import SignIn from "./pages/Auth/SignIn";
+import SignUp from "./pages/Auth/SignUp";
 
 const Routes = createAppContainer(
   createStackNavigator(
