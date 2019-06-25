@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import logo from '../../../assets/images/logo3x.png';
+
+import AuthActions from '../../../store/ducks/auth';
 
 import {
   Container,
@@ -14,17 +18,25 @@ import {
   Gradient,
 } from '../styles';
 
-export default class SignIn extends Component {
+class SignIn extends Component {
   static propTypes = {
     navigation: PropTypes.shape({
       navigate: PropTypes.func,
     }).isRequired,
+    signInRequest: PropTypes.func.isRequired,
   };
 
   state = {
     email: '',
     password: '',
     passwordSecure: true,
+  };
+
+  handleSubmit = () => {
+    const { email, password } = this.state;
+    const { signInRequest } = this.props;
+
+    signInRequest(email, password);
   };
 
   render() {
@@ -69,7 +81,7 @@ export default class SignIn extends Component {
           />
         </PasswordInput>
 
-        <SubmitButton onPress={() => {}}>
+        <SubmitButton onPress={this.handleSubmit}>
           <ButtonText>Entrar</ButtonText>
         </SubmitButton>
 
@@ -80,3 +92,10 @@ export default class SignIn extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => bindActionCreators(AuthActions, dispatch);
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(SignIn);

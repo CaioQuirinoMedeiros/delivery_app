@@ -1,11 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Provider } from 'react-redux';
 
-import Routes from './routes';
+import { Toast } from 'react-native-redux-toast';
 
-class App extends Component {
-  render() {
-    return <Routes />;
-  }
-}
+import App from './App';
+import store from './store';
 
-export default App;
+const Root = () => (
+  <Provider store={store}>
+    <>
+      <App />
+      <Toast />
+    </>
+  </Provider>
+);
+
+export default Root;
