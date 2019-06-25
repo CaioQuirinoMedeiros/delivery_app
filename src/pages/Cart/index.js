@@ -16,7 +16,7 @@ class Cart extends Component {
     return (
       <View>
         <Text>CARRRIIIIINHHOOOOO</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('OrderStack')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Main')}>
           <Text>MENU</Text>
         </TouchableOpacity>
       </View>
