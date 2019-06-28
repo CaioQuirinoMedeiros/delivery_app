@@ -7,9 +7,9 @@ import Immutable from 'seamless-immutable';
  * Actions & Types
  */
 const { Types, Creators } = createActions({
-  addOrderItem: ['item'],
-  removeOrderItem: ['id'],
-  attOrderItemQuantity: ['quantity'],
+  addItem: ['item'],
+  removeItem: ['id'],
+  attItemQuantity: ['id', 'quantity'],
 });
 
 export const CartTypes = Types;
@@ -43,5 +43,5 @@ const attItemQuantity = (state, { id, quantity }) => state.merge({
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.ADD_ITEM]: addItem,
   [Types.REMOVE_ITEM]: removeItem,
-  [Types.ADD_ITEM_QUANTITY]: attItemQuantity,
+  [Types.ATT_ITEM_QUANTITY]: attItemQuantity,
 });
