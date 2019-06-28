@@ -1,21 +1,26 @@
 import React, { Component } from 'react';
-
-import {
-  View, Text, Image, TouchableOpacity, FlatList,
-} from 'react-native';
+import PropTypes from 'prop-types';
 
 import api from '../../services/api';
 
-// import { Container } from './styles';
+import {
+  Container, ProductsList, Product, ProductImage, ProductTitle,
+} from './styles';
 
 class Products extends Component {
   static navigationOptions = {
     title: 'Selecione um tipo',
   };
 
+  static propTypes = {
+    navigation: PropTypes.shape({
+      getParam: PropTypes.func,
+      navigate: PropTypes.func,
+    }).isRequired,
+  };
+
   state = {
     products: [],
-    id: null,
   };
 
   componentDidMount() {
@@ -24,12 +29,12 @@ class Products extends Component {
 
   loadProducts = async () => {
     const { navigation } = this.props;
-    const id = navigation.getParam('categoryId');
+    const id = navigation.getParam('ProductId');
 
     try {
-      const response = await api.get('products', { params: { category: id } });
+      const response = await api.get('products', { params: { Product: id } });
 
-      this.setState({ products: response.data, id });
+      this.setState({ products: response.data });
     } catch (err) {
       console.log(err);
     }
@@ -42,28 +47,24 @@ class Products extends Component {
   };
 
   renderProduct = ({ item }) => (
-    <TouchableOpacity onPress={() => this.handleProductSelect(item.id)}>
-      <Image source={{ uri: item.image.url }} />
-      <Text>{item.name}</Text>
-    </TouchableOpacity>
+    <Product onPress={() => this.handleProductSelect(item.id)}>
+      <ProductImage source={{ uri: item.image.url }} />
+      <ProductTitle>{item.name}</ProductTitle>
+    </Product>
   );
 
   render() {
-    const { navigation } = this.props;
-    const { id, products } = this.state;
+    const { products } = this.state;
 
     return (
-      <View>
-        <TouchableOpacity onPress={() => navigation.navigate('Sizes')}>
-          <Text>NAVEGAR PARA TIPOOOOOOOS</Text>
-        </TouchableOpacity>
-
-        <FlatList
+      <Container>
+        <ProductsList
           data={products}
+          numColumns={2}
           keyExtractor={item => String(item.id)}
           renderItem={this.renderProduct}
         />
-      </View>
+      </Container>
     );
   }
 }
