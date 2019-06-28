@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-// import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
+
+import CartActions from '../../store/ducks/cart';
 
 import {
   Container,
@@ -21,62 +25,57 @@ class Cart extends Component {
     title: 'Carrinho',
   };
 
-  static propTypes = {};
-
-  state = {
-    orderItems: [
-      {
-        id: 1,
-        title: 'Pizza calabresa',
-        size: 'Tamanho média',
-        price: 'R$19,00',
-      },
-      {
-        id: 2,
-        title: 'Pizza calabresa',
-        size: 'Tamanho média',
-        price: 'R$19,00',
-      },
-      {
-        id: 3,
-        title: 'Pizza calabresa',
-        size: 'Tamanho média',
-        price: 'R$19,00',
-      },
-      {
-        id: 4,
-        title: 'Pizza calabresa',
-        size: 'Tamanho média',
-        price: 'R$19,00',
-      },
-    ],
+  static propTypes = {
+    cart: PropTypes.shape({
+      data: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.number,
+          price: PropTypes.number,
+          product: PropTypes.shape({
+            name: PropTypes.string,
+            image: PropTypes.shape({
+              url: PropTypes.string,
+            }),
+          }),
+          size: PropTypes.shape({
+            name: PropTypes.string,
+          }),
+          quantity: PropTypes.number,
+        }),
+      ),
+    }).isRequired,
+    removeItem: PropTypes.func.isRequired,
   };
 
   componentDidMount() {}
 
-  renderOrderItem = ({ item }) => (
-    <OrderItem>
-      <ProductImage source={{ uri: 'sdas' }} />
-      <OrderInfo>
-        <ProductTitle>{item.title}</ProductTitle>
-        <ProductSize>{item.size}</ProductSize>
-        <OrderItemCost>
-          <ProductPrice>{item.price}</ProductPrice>
-          <OrderQuantity>{item.price}</OrderQuantity>
-        </OrderItemCost>
-      </OrderInfo>
-      <DeleteButton onPress={() => {}}>
-        <Icon name="delete-forever" size={24} />
-      </DeleteButton>
-    </OrderItem>
-  );
+  renderOrderItem = ({ item }) => {
+    const { removeItem } = this.props;
+
+    return (
+      <OrderItem>
+        <ProductImage source={{ uri: item.product.image.url }} />
+        <OrderInfo>
+          <ProductTitle>{item.product.name}</ProductTitle>
+          <ProductSize>{item.size.name}</ProductSize>
+          <OrderItemCost>
+            <ProductPrice>{item.price * item.quantity}</ProductPrice>
+            <OrderQuantity>{item.quantity}</OrderQuantity>
+          </OrderItemCost>
+        </OrderInfo>
+        <DeleteButton onPress={() => removeItem(item.id)}>
+          <Icon name="delete-forever" size={24} />
+        </DeleteButton>
+      </OrderItem>
+    );
+  };
 
   render() {
-    const { orderItems } = this.state;
+    const { cart } = this.props;
     return (
       <Container>
         <CartList
-          data={orderItems}
+          data={cart.data}
           keyExtractor={item => String(item.id)}
           renderItem={this.renderOrderItem}
         />
@@ -85,4 +84,13 @@ class Cart extends Component {
   }
 }
 
-export default Cart;
+const mapStateToProps = state => ({
+  cart: state.cart,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators(CartActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Cart);

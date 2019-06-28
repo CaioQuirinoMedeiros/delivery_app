@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+
+import CartActions from '../../store/ducks/cart';
 
 import api from '../../services/api';
 
@@ -17,6 +21,7 @@ class Sizes extends Component {
       getParam: PropTypes.func,
       navigate: PropTypes.func,
     }).isRequired,
+    addItem: PropTypes.func.isRequired,
   };
 
   state = {
@@ -32,18 +37,28 @@ class Sizes extends Component {
     const id = navigation.getParam('productId');
 
     try {
-      const response = await api.get(`products/${id}`);
+      const response = await api.get('sizes', { params: { product: id } });
 
-      this.setState({ sizes: response.data.sizes });
+      this.setState({ sizes: response.data });
     } catch (err) {
       console.log(err);
     }
   };
 
-  handleSizeSelect = (id) => {
-    const { navigation } = this.props;
+  handleSizeSelect = async (id) => {
+    const { navigation, addItem } = this.props;
 
-    navigation.navigate('Cart', { id });
+    try {
+      const response = await api.get(`sizes/${id}`);
+
+      console.log(response);
+
+      addItem({ ...response.data, quantity: 1 });
+
+      navigation.navigate('Cart');
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   renderSize = ({ item }) => (
@@ -74,4 +89,9 @@ class Sizes extends Component {
   }
 }
 
-export default Sizes;
+const mapDispatchToProps = dispatch => bindActionCreators(CartActions, dispatch);
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(Sizes);
