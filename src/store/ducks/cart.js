@@ -25,7 +25,7 @@ export const INITIAL_STATE = Immutable({
       price: 25,
       product: {
         name: 'Pizza Calabresa',
-        image: { url: '' },
+        image: { url: 'asdsa' },
       },
       size: { name: 'Média' },
       quantity: 1,
@@ -35,7 +35,7 @@ export const INITIAL_STATE = Immutable({
       price: 28,
       product: {
         name: 'Pizza Mussarela',
-        image: { url: '' },
+        image: { url: 'asd' },
       },
       size: { name: 'Grande' },
       quantity: 3,
@@ -45,7 +45,7 @@ export const INITIAL_STATE = Immutable({
       price: 30,
       product: {
         name: 'Pizza Bacon',
-        image: { url: '' },
+        image: { url: 'asdas' },
       },
       size: { name: 'Média' },
       quantity: 2,
