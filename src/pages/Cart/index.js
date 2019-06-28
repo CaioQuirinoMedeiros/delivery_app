@@ -18,6 +18,10 @@ import {
   ProductPrice,
   OrderQuantity,
   DeleteButton,
+  Footer,
+  MainButton,
+  OrderButton,
+  OrderButtonText,
 } from './styles';
 
 class Cart extends Component {
@@ -45,6 +49,9 @@ class Cart extends Component {
       ),
     }).isRequired,
     removeItem: PropTypes.func.isRequired,
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func,
+    }).isRequired,
   };
 
   componentDidMount() {}
@@ -71,7 +78,7 @@ class Cart extends Component {
   };
 
   render() {
-    const { cart } = this.props;
+    const { cart, navigation } = this.props;
     return (
       <Container>
         <CartList
@@ -79,6 +86,14 @@ class Cart extends Component {
           keyExtractor={item => String(item.id)}
           renderItem={this.renderOrderItem}
         />
+        <Footer>
+          <MainButton onPress={() => navigation.navigate('Main')}>
+            <Icon name="add-shopping-cart" size={24} />
+          </MainButton>
+          <OrderButton onPress={() => {}}>
+            <OrderButtonText>Realizar pedido</OrderButtonText>
+          </OrderButton>
+        </Footer>
       </Container>
     );
   }

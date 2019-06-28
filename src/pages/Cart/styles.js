@@ -91,3 +91,42 @@ export const DeleteButton = styled.TouchableOpacity.attrs({
 
   background: red;
 `;
+
+export const Footer = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  padding-top: 20px;
+
+  background: orange;
+  border-width: 1px;
+  border-color: blue;
+`;
+
+export const MainButton = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.7,
+})`
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  align-items: center;
+  justify-content: center;
+
+  background: #293def;
+`;
+
+export const OrderButton = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.7,
+})`
+  height: 36px;
+  padding: 0 30px;
+  border-radius: 18px;
+  background: red;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const OrderButtonText = styled.Text`
+  font-size: 18px;
+  color: #fff;
+  text-align: center;
+`;
