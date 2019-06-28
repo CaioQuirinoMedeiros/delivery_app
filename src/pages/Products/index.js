@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 
-import { View, Text } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {
+  View, Text, Image, TouchableOpacity, FlatList,
+} from 'react-native';
+
+import api from '../../services/api';
 
 // import { Container } from './styles';
 
@@ -10,23 +13,56 @@ class Products extends Component {
     title: 'Selecione um tipo',
   };
 
-  componentDidMount() {}
+  state = {
+    products: [],
+    id: null,
+  };
+
+  componentDidMount() {
+    this.loadProducts();
+  }
+
+  loadProducts = async () => {
+    const { navigation } = this.props;
+    const id = navigation.getParam('categoryId');
+
+    try {
+      const response = await api.get('products', { params: { category: id } });
+
+      this.setState({ products: response.data, id });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  handleProductSelect = (id) => {
+    const { navigation } = this.props;
+
+    navigation.navigate('Sizes', { productId: id });
+  };
+
+  renderProduct = ({ item }) => (
+    <TouchableOpacity onPress={() => this.handleProductSelect(item.id)}>
+      <Image source={{ uri: item.image.url }} />
+      <Text>{item.name}</Text>
+    </TouchableOpacity>
+  );
 
   render() {
     const { navigation } = this.props;
+    const { id, products } = this.state;
 
     return (
       <View>
-        <Text>PRODUCTS</Text>
         <TouchableOpacity onPress={() => navigation.navigate('Sizes')}>
           <Text>NAVEGAR PARA TIPOOOOOOOS</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
-          <Text>NAVEEEGAR para CARRINHO!!!!</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log(navigation)}>
-          <Text>NAVIGATION!!!!</Text>
-        </TouchableOpacity>
+
+        <FlatList
+          data={products}
+          keyExtractor={item => String(item.id)}
+          renderItem={this.renderProduct}
+        />
       </View>
     );
   }
