@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import CategoriesActions from '../../store/ducks/categories';
+import api from '../../services/api';
 
 import {
   Container,
@@ -26,23 +24,27 @@ class Main extends Component {
   });
 
   static propTypes = {
-    getCategoriesRequest: PropTypes.func.isRequired,
     navigation: PropTypes.shape({
       navigate: PropTypes.func,
     }).isRequired,
-    categories: PropTypes.shape({
-      data: PropTypes.arrayOf(PropTypes.shape({})),
-    }).isRequired,
+  };
+
+  state = {
+    categories: [],
   };
 
   componentDidMount() {
     this.loadCategories();
   }
 
-  loadCategories = () => {
-    const { getCategoriesRequest } = this.props;
+  loadCategories = async () => {
+    try {
+      const response = await api.get('categories');
 
-    getCategoriesRequest();
+      this.setState({ categories: response.data });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   handleCategorySelect = (id) => {
@@ -66,12 +68,12 @@ class Main extends Component {
   );
 
   render() {
-    const { categories } = this.props;
+    const { categories } = this.state;
 
     return (
       <Container>
         <CategoriesList
-          data={categories.data}
+          data={categories}
           keyExtractor={item => String(item.id)}
           renderItem={this.renderCategory}
         />
@@ -80,13 +82,4 @@ class Main extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  categories: state.categories,
-});
-
-const mapDispatchToProps = dispatch => bindActionCreators(CategoriesActions, dispatch);
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Main);
+export default Main;
