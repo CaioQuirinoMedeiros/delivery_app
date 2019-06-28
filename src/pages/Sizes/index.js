@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
-
-import {
-  View, Text, FlatList, Image, TouchableOpacity,
-} from 'react-native';
+import PropTypes from 'prop-types';
 
 import api from '../../services/api';
 
-// import { Container } from './styles';
+import {
+  Container, SizesList, Size, SizeImage, SizeTitle, SizePrice,
+} from './styles';
 
 class Sizes extends Component {
   static navigationOptions = {
     title: 'Selecione um tamanho',
+  };
+
+  static propTypes = {
+    navigation: PropTypes.shape({
+      getParam: PropTypes.func,
+      navigate: PropTypes.func,
+    }).isRequired,
   };
 
   state = {
@@ -34,23 +40,36 @@ class Sizes extends Component {
     }
   };
 
+  handleSizeSelect = (id) => {
+    const { navigation } = this.props;
+
+    navigation.navigate('Cart', { id });
+  };
+
   renderSize = ({ item }) => (
-    <TouchableOpacity onPress={() => this.handleSizeSelect(item.id)}>
-      <Text>{item.size.name}</Text>
-      <Text>{item.price}</Text>
-    </TouchableOpacity>
+    <Size onPress={() => this.handleSizeSelect(item.id)}>
+      <SizeImage
+        source={{
+          uri:
+            'https://s3-sa-east-1.amazonaws.com/snibrazil/wp-content/uploads/2017/09/1506701024-massa-de-pizza_616x462.jpg',
+        }}
+      />
+      <SizeTitle>{item.size.name}</SizeTitle>
+      <SizePrice>{item.price}</SizePrice>
+    </Size>
   );
 
   render() {
     const { sizes } = this.state;
     return (
-      <View>
-        <FlatList
+      <Container>
+        <SizesList
           data={sizes}
+          numColumns={2}
           keyExtractor={item => String(item.id)}
           renderItem={this.renderSize}
         />
-      </View>
+      </Container>
     );
   }
 }
