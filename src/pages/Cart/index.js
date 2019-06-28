@@ -34,7 +34,7 @@ class Cart extends Component {
       data: PropTypes.arrayOf(
         PropTypes.shape({
           id: PropTypes.number,
-          price: PropTypes.number,
+          price: PropTypes.string,
           product: PropTypes.shape({
             name: PropTypes.string,
             image: PropTypes.shape({

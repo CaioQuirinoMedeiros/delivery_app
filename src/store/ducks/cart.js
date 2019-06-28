@@ -22,7 +22,7 @@ export const INITIAL_STATE = Immutable({
   data: [
     {
       id: 1,
-      price: 25,
+      price: '25',
       product: {
         name: 'Pizza Calabresa',
         image: { url: 'asdsa' },
@@ -32,7 +32,7 @@ export const INITIAL_STATE = Immutable({
     },
     {
       id: 2,
-      price: 28,
+      price: '28',
       product: {
         name: 'Pizza Mussarela',
         image: { url: 'asd' },
@@ -42,7 +42,7 @@ export const INITIAL_STATE = Immutable({
     },
     {
       id: 3,
-      price: 30,
+      price: '30',
       product: {
         name: 'Pizza Bacon',
         image: { url: 'asdas' },
