@@ -8,7 +8,6 @@ import CategoriesActions from '../ducks/categories';
 export function* getCategories() {
   try {
     const response = yield call(api.get, 'categories');
-    console.log(response);
 
     yield put(CategoriesActions.getCategoriesSuccess(response.data));
   } catch (err) {
