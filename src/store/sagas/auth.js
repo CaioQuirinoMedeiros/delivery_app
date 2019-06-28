@@ -27,6 +27,7 @@ export function* signIn({ email, password }) {
 
     yield put(ToastActionsCreators.displayInfo('Login realizado com sucesso'));
   } catch (err) {
+    console.log(err);
     yield put(ToastActionsCreators.displayError('Credenciais inválidas'));
   }
 }

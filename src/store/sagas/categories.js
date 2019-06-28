@@ -10,7 +10,7 @@ export function* getCategories() {
     const response = yield call(api.get, 'categories');
     console.log(response);
 
-    yield put(CategoriesActions.getCategoriesSuccess(response.data.data));
+    yield put(CategoriesActions.getCategoriesSuccess(response.data));
   } catch (err) {
     console.log(err);
     yield put(ToastActionsCreators.displayError('Erro ao buscar as categorias'));
