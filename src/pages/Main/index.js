@@ -1,19 +1,38 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {
-  View, Text, FlatList, Image,
-} from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import PropTypes from 'prop-types';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import { REACT_APP_API_URL } from 'react-native-dotenv';
 import CategoriesActions from '../../store/ducks/categories';
 
-// import { Container } from './styles';
+import {
+  Container,
+  CategoriesList,
+  Category,
+  CategoryImage,
+  CategoryInfo,
+  CategoryTitle,
+  CategoryDescription,
+  CategoryCookTime,
+  CategoryCookTimeText,
+} from './styles';
+
+import MainHeader from '../../components/MainHeader';
 
 class Main extends Component {
-  static navigationOptions = {
-    title: 'Pizzaria Don Juan',
+  static navigationOptions = ({ navigation }) => ({
+    header: <MainHeader navigation={navigation} />,
+  });
+
+  static propTypes = {
+    getCategoriesRequest: PropTypes.func.isRequired,
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func,
+    }).isRequired,
+    categories: PropTypes.shape({
+      data: PropTypes.arrayOf(PropTypes.shape({})),
+    }).isRequired,
   };
 
   componentDidMount() {
@@ -33,43 +52,30 @@ class Main extends Component {
   };
 
   renderCategory = ({ item }) => (
-    <TouchableOpacity onPress={() => this.handleCategorySelect(item.id)}>
-      <Image source={{ uri: item.image.url }} />
-      <View>
-        <Text>{item.name}</Text>
-        <Text>{item.description}</Text>
-        <Text>{item.cook_time}</Text>
-      </View>
-    </TouchableOpacity>
+    <Category onPress={() => this.handleCategorySelect(item.id)}>
+      <CategoryImage source={{ uri: item.image.url }} />
+      <CategoryInfo>
+        <CategoryTitle>{item.name}</CategoryTitle>
+        <CategoryDescription>{item.description}</CategoryDescription>
+        <CategoryCookTime>
+          <Icon name="alarm" size={16} />
+          <CategoryCookTimeText>{`${item.cook_time} mins`}</CategoryCookTimeText>
+        </CategoryCookTime>
+      </CategoryInfo>
+    </Category>
   );
 
   render() {
-    const { navigation } = this.props;
     const { categories } = this.props;
 
     return (
-      <>
-        <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
-          <Text>NAVEEEGAR para CARRINHO!!!!</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-          <Text>NAVEEEGAR para PERFIL!!!!</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            this.loadCategories();
-            console.log(categories);
-          }}
-        >
-          <Text>CARREGAR CATEGOOOOOORIAS!!!!</Text>
-        </TouchableOpacity>
-
-        <FlatList
+      <Container>
+        <CategoriesList
           data={categories.data}
           keyExtractor={item => String(item.id)}
           renderItem={this.renderCategory}
         />
-      </>
+      </Container>
     );
   }
 }
