@@ -21,6 +21,7 @@ class Products extends Component {
 
   state = {
     products: [],
+    refreshing: false,
   };
 
   componentDidMount() {
@@ -29,14 +30,17 @@ class Products extends Component {
 
   loadProducts = async () => {
     const { navigation } = this.props;
-    const id = navigation.getParam('ProductId');
+    const id = navigation.getParam('categoryId');
 
     try {
-      const response = await api.get('products', { params: { Product: id } });
+      this.setState({ refreshing: true });
+      const response = await api.get('products', { params: { category: id } });
 
       this.setState({ products: response.data });
     } catch (err) {
       console.log(err);
+    } finally {
+      this.setState({ refreshing: false });
     }
   };
 
@@ -54,7 +58,7 @@ class Products extends Component {
   );
 
   render() {
-    const { products } = this.state;
+    const { products, refreshing } = this.state;
 
     return (
       <Container>
@@ -63,6 +67,9 @@ class Products extends Component {
           numColumns={2}
           keyExtractor={item => String(item.id)}
           renderItem={this.renderProduct}
+          onRefresh={this.loadProducts}
+          refreshing={refreshing}
+          showsVerticalScrollIndicator={false}
         />
       </Container>
     );

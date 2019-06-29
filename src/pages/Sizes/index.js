@@ -26,6 +26,7 @@ class Sizes extends Component {
 
   state = {
     sizes: [],
+    refreshing: false,
   };
 
   componentDidMount() {
@@ -37,11 +38,14 @@ class Sizes extends Component {
     const id = navigation.getParam('productId');
 
     try {
+      this.setState({ refreshing: true });
       const response = await api.get('sizes', { params: { product: id } });
 
       this.setState({ sizes: response.data });
     } catch (err) {
       console.log(err);
+    } finally {
+      this.setState({ refreshing: false });
     }
   };
 
@@ -75,7 +79,7 @@ class Sizes extends Component {
   );
 
   render() {
-    const { sizes } = this.state;
+    const { sizes, refreshing } = this.state;
     return (
       <Container>
         <SizesList
@@ -83,6 +87,9 @@ class Sizes extends Component {
           numColumns={2}
           keyExtractor={item => String(item.id)}
           renderItem={this.renderSize}
+          onRefresh={this.loadSizes}
+          refreshing={refreshing}
+          showsVerticalScrollIndicator={false}
         />
       </Container>
     );
