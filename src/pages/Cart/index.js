@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
+import CartTotal from '../../components/CartTotal';
 import CartActions from '../../store/ducks/cart';
+import { convertToBRL } from '../../services/currency';
 
 import {
   Container,
@@ -29,27 +31,26 @@ import {
 class Cart extends Component {
   static navigationOptions = {
     title: 'Carrinho',
+    headerRight: <CartTotal />,
   };
 
   static propTypes = {
-    cart: PropTypes.shape({
-      data: PropTypes.arrayOf(
-        PropTypes.shape({
-          id: PropTypes.number,
-          price: PropTypes.string,
-          product: PropTypes.shape({
-            name: PropTypes.string,
-            image: PropTypes.shape({
-              url: PropTypes.string,
-            }),
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        price: PropTypes.string,
+        product: PropTypes.shape({
+          name: PropTypes.string,
+          image: PropTypes.shape({
+            url: PropTypes.string,
           }),
-          size: PropTypes.shape({
-            name: PropTypes.string,
-          }),
-          quantity: PropTypes.number,
         }),
-      ),
-    }).isRequired,
+        size: PropTypes.shape({
+          name: PropTypes.string,
+        }),
+        quantity: PropTypes.number,
+      }),
+    ).isRequired,
     removeItem: PropTypes.func.isRequired,
     attItemQuantity: PropTypes.func.isRequired,
     navigation: PropTypes.shape({
@@ -70,7 +71,7 @@ class Cart extends Component {
           <ProductTitle>{item.product.name}</ProductTitle>
           <ProductSize>{`Tamanho: ${item.size.name}`}</ProductSize>
           <OrderItemCost>
-            <ProductPrice>{`R$${item.subtotal}`}</ProductPrice>
+            <ProductPrice>{item.subtotal}</ProductPrice>
             <OrderQuantity>
               <QuantityButton onPress={() => attItemQuantity(item.id, quantity - 1)}>
                 <Icon name="remove" />
@@ -90,11 +91,11 @@ class Cart extends Component {
   };
 
   render() {
-    const { cart, navigation } = this.props;
+    const { items, navigation } = this.props;
     return (
       <Container>
         <CartList
-          data={cart.data}
+          data={items}
           keyExtractor={item => String(item.id)}
           renderItem={this.renderOrderItem}
         />
@@ -102,7 +103,7 @@ class Cart extends Component {
           <MainButton onPress={() => navigation.navigate('Main')}>
             <Icon name="add-shopping-cart" size={24} />
           </MainButton>
-          <OrderButton onPress={() => {}}>
+          <OrderButton onPress={() => navigation.navigate('Order')}>
             <OrderButtonText>Realizar pedido</OrderButtonText>
           </OrderButton>
         </Footer>
@@ -111,26 +112,14 @@ class Cart extends Component {
   }
 }
 
-const convertToBRL = (item) => {
-  let subtotal = (item.price * item.quantity).toFixed(2);
-
-  subtotal = subtotal.replace(/[.]/g, ',');
+const calculateSubtotal = (item) => {
+  const subtotal = convertToBRL(item.price * item.quantity);
 
   return { ...item, subtotal };
 };
 
 const mapStateToProps = state => ({
-  cart: {
-    ...state.cart,
-    data: state.cart.data.map(item => convertToBRL(item)),
-  },
-  // cart: {
-  //   ...state.cart,
-  //   data: state.cart.data.map(item => ({
-  //     ...item,
-  //     subtotal: (item.price * item.quantity).toFixed(2).replace(/,/g, '.'),
-  //   })),
-  // },
+  items: state.cart.data.map(item => calculateSubtotal(item)),
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(CartActions, dispatch);
