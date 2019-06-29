@@ -22,7 +22,11 @@ const AppStack = createStackNavigator(
     Cart,
     Profile,
   },
-  { initialRouteName: 'Main' },
+  {
+    initialRouteName: 'Main',
+    headerMode: 'float',
+    defaultNavigationOptions: { headerStyle: { height: 60 } },
+  },
 );
 
 const createNavigator = isLoggedIn => createAppContainer(

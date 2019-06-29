@@ -19,9 +19,11 @@ import {
 import MainHeader from '../../components/MainHeader';
 
 class Main extends Component {
-  static navigationOptions = ({ navigation }) => ({
-    header: <MainHeader navigation={navigation} />,
-  });
+  static navigationOptions = {
+    header: ({ navigation, defaultNavigationOptions }) => (
+      <MainHeader navigation={navigation} height={defaultNavigationOptions.headerStyle.height} />
+    ),
+  };
 
   static propTypes = {
     navigation: PropTypes.shape({
@@ -31,6 +33,7 @@ class Main extends Component {
 
   state = {
     categories: [],
+    refreshing: false,
   };
 
   componentDidMount() {
@@ -39,11 +42,14 @@ class Main extends Component {
 
   loadCategories = async () => {
     try {
+      this.setState({ refreshing: true });
       const response = await api.get('categories');
 
       this.setState({ categories: response.data });
     } catch (err) {
       console.log(err);
+    } finally {
+      this.setState({ refreshing: false });
     }
   };
 
@@ -68,7 +74,7 @@ class Main extends Component {
   );
 
   render() {
-    const { categories } = this.state;
+    const { categories, refreshing } = this.state;
 
     return (
       <Container>
@@ -76,6 +82,9 @@ class Main extends Component {
           data={categories}
           keyExtractor={item => String(item.id)}
           renderItem={this.renderCategory}
+          onRefresh={this.loadCategories}
+          refreshing={refreshing}
+          showsVerticalScrollIndicator={false}
         />
       </Container>
     );
