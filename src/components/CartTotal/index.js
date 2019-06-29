@@ -5,7 +5,18 @@ import { Text } from 'react-native';
 
 import { convertToBRL } from '../../services/currency';
 
-const CartTotal = ({ total }) => <Text style={{ paddingHorizontal: 20 }}>{total}</Text>;
+const CartTotal = ({ total }) => (
+  <Text
+    style={{
+      paddingHorizontal: 20,
+      color: '#fff',
+      fontSize: 18,
+      fontWeight: 'bold',
+    }}
+  >
+    {total}
+  </Text>
+);
 
 CartTotal.propTypes = {
   total: PropTypes.string.isRequired,
