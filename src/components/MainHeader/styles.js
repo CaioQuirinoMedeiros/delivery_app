@@ -22,7 +22,7 @@ export const Button = styled.TouchableOpacity.attrs({
   border-radius: 18px;
   align-items: center;
   justify-content: center;
-  background: ${props => (props.red ? 'red' : 'transparent')};
+  background: ${props => (props.red ? '#E62638' : 'transparent')};
 `;
 
 export const Title = styled.Text`
@@ -31,4 +31,17 @@ export const Title = styled.Text`
   color: #fff;
   text-align: center;
   flex: 1;
+`;
+
+export const CartItems = styled.Text`
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  background: orange;
+  width: 17px;
+  height: 17px;
+  border-radius: 8.5px;
+  text-align: center;
+  color: #fff;
+  font-size: 12px;
 `;

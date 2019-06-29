@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
 import CartActions from '../../store/ducks/cart';
-
+import { convertToBRL } from '../../services/currency';
 import api from '../../services/api';
 
 import {
@@ -41,7 +41,14 @@ class Sizes extends Component {
       this.setState({ refreshing: true });
       const response = await api.get('sizes', { params: { product: id } });
 
-      this.setState({ sizes: response.data });
+      const sizes = response.data.map(item => ({
+        ...item,
+        price: convertToBRL(Number(item.price)),
+      }));
+
+      console.log(sizes);
+
+      this.setState({ sizes });
     } catch (err) {
       console.log(err);
     } finally {
@@ -53,6 +60,7 @@ class Sizes extends Component {
     const { navigation, addItem } = this.props;
 
     try {
+      this.setState({ refreshing: true });
       const response = await api.get(`sizes/${id}`);
 
       console.log(response);
@@ -62,6 +70,8 @@ class Sizes extends Component {
       navigation.navigate('Cart');
     } catch (err) {
       console.log(err);
+    } finally {
+      this.setState({ refreshing: false });
     }
   };
 
@@ -70,7 +80,7 @@ class Sizes extends Component {
       <SizeImage
         source={{
           uri:
-            'https://s3-sa-east-1.amazonaws.com/snibrazil/wp-content/uploads/2017/09/1506701024-massa-de-pizza_616x462.jpg',
+            'https://previews.123rf.com/images/alexutemov/alexutemov1511/alexutemov151100311/48202556-pizza-flat-icons-isolated-on-white-background-pizza-food-silhouette-pizza-piece-pizza-slice-pizza-me.jpg',
         }}
       />
       <SizeTitle>{item.size.name}</SizeTitle>

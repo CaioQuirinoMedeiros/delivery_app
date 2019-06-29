@@ -52,7 +52,9 @@ class Products extends Component {
 
   renderProduct = ({ item }) => (
     <Product onPress={() => this.handleProductSelect(item.id)}>
-      <ProductImage source={{ uri: item.image.url }} />
+      <ProductImage
+        source={{ uri: 'https://optepizza.com.br/wp-content/uploads/opte-pizza.png' }}
+      />
       <ProductTitle>{item.name}</ProductTitle>
     </Product>
   );

@@ -2,18 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import { Container, Button, Title } from './styles';
+import {
+  Container, Button, Title, CartItems,
+} from './styles';
 
 const MainHeader = ({ navigation, height }) => {
   console.log(navigation, height);
   return (
     <Container headerHeight={height}>
       <Button onPress={() => navigation.navigate('Profile')}>
-        <Icon name="face" size={24} />
+        <Icon name="face" size={24} color="#fff" />
       </Button>
       <Title>Pizzaria Don Juan</Title>
       <Button onPress={() => navigation.navigate('Cart')} red>
-        <Icon name="shopping-basket" size={24} />
+        <CartItems>5</CartItems>
+        <Icon name="shopping-basket" size={20} color="#fff" />
       </Button>
     </Container>
   );
