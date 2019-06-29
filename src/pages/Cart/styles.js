@@ -57,10 +57,9 @@ export const ProductPrice = styled.Text`
 
 export const OrderQuantity = styled.View`
   align-items: center;
-  margin: 0 10px;
-
-  height: 80px;
   justify-content: space-between;
+  margin: 0 10px;
+  height: 80px;
 `;
 
 export const QuantityValue = styled.Text`
@@ -127,4 +126,11 @@ export const OrderButtonText = styled.Text`
   font-weight: bold;
   color: #fff;
   text-align: center;
+`;
+
+export const EmptyMessage = styled.Text`
+  font-size: 24px;
+  width: 100%;
+  text-align: center;
+  color: #706e7b;
 `;

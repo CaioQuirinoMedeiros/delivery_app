@@ -25,6 +25,7 @@ import {
   MainButton,
   OrderButton,
   OrderButtonText,
+  EmptyMessage,
 } from './styles';
 
 class Cart extends Component {
@@ -97,6 +98,11 @@ class Cart extends Component {
           data={items}
           keyExtractor={item => String(item.id)}
           renderItem={this.renderOrderItem}
+          ListEmptyComponent={(
+            <OrderItem>
+              <EmptyMessage>Carrinho vazio</EmptyMessage>
+            </OrderItem>
+)}
         />
         <Footer>
           <MainButton onPress={() => navigation.navigate('Main')}>
