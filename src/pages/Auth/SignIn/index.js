@@ -15,7 +15,6 @@ import {
   ButtonText,
   LinkButton,
   Logo,
-  Gradient,
 } from '../styles';
 
 class SignIn extends Component {
@@ -32,7 +31,7 @@ class SignIn extends Component {
     passwordSecure: true,
   };
 
-  handleSubmit = () => {
+  handleSignInSubmit = () => {
     const { email, password } = this.state;
     const { signInRequest } = this.props;
 
@@ -45,8 +44,8 @@ class SignIn extends Component {
 
     return (
       <Container>
-        <Gradient />
         <Logo source={logo} />
+
         <Input
           placeholder="Seu e-mail"
           value={email}
@@ -67,8 +66,8 @@ class SignIn extends Component {
             secureTextEntry={passwordSecure}
             autoCapitalize="none"
             autoCorrect={false}
-            returnKeyType="next"
-            onSubmitEditing={() => this.passwordConfirmationInput.focus()}
+            returnKeyType="send"
+            onSubmitEditing={this.handleSignInSubmit}
             ref={(el) => {
               this.passwordInput = el;
             }}

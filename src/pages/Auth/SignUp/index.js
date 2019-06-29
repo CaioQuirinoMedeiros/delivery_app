@@ -15,7 +15,6 @@ import {
   ButtonText,
   LinkButton,
   Logo,
-  Gradient,
 } from '../styles';
 
 export default class SignUp extends Component {
@@ -39,7 +38,7 @@ export default class SignUp extends Component {
       name, email, password, passwordConfirmation,
     } = this.state;
 
-    const response = await api.post('users', {
+    await api.post('users', {
       name,
       email,
       password,
@@ -60,7 +59,6 @@ export default class SignUp extends Component {
 
     return (
       <Container>
-        <Gradient />
         <Logo source={logo} />
 
         <Input

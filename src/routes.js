@@ -12,7 +12,11 @@ import Order from './pages/Order';
 
 const AuthStack = createStackNavigator(
   { SignIn, SignUp },
-  { initialRouteName: 'SignIn', headerMode: 'none' },
+  {
+    initialRouteName: 'SignIn',
+    headerMode: 'none',
+    transparentCard: true,
+  },
 );
 
 const AppStack = createStackNavigator(

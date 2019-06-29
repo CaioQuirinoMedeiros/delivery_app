@@ -1,31 +1,12 @@
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import LinearGradient from 'react-native-linear-gradient';
 
-import background from '../../assets/images/fundo.jpg';
-
-export const Container = styled.ImageBackground.attrs({
-  source: background,
-})`
+export const Container = styled.View`
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
   flex: 1;
   align-items: center;
   justify-content: center;
   padding: 0 30px;
-`;
-
-export const Gradient = styled(LinearGradient).attrs({
-  colors: ['rgba(0,0,0,0.5)', 'rgba(0,0,0,0.80)', 'rgba(0,0,0,0.9)'],
-})`
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
 `;
 
 export const Input = styled.TextInput`

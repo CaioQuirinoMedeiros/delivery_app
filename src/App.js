@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ActivityIndicator, StatusBar } from 'react-native';
 
-import { Background } from './styles';
+import { Background, Gradient } from './styles';
+import headerBackground from './assets/images/header-background.png';
+import fundo from './assets/images/fundo.jpg';
 
 import createNavigator from './routes';
 
@@ -25,8 +27,9 @@ class App extends Component {
     const Routes = createNavigator(auth.signedIn);
     return (
       <>
-        <StatusBar backgroundColor="#0B2031" barStyle="light-content" />
-        {auth.signedIn && <Background />}
+        <StatusBar backgroundColor="#0B2031" barStyle="light-content" hidden={!auth.signedIn} />
+        <Background source={auth.signedIn ? headerBackground : fundo} />
+        {!auth.signedIn && <Gradient />}
         <Routes />
       </>
     );
