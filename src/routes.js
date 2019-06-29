@@ -8,6 +8,7 @@ import Products from './pages/Products';
 import Sizes from './pages/Sizes';
 import Cart from './pages/Cart';
 import Profile from './pages/Profile';
+import Order from './pages/Order';
 
 const AuthStack = createStackNavigator(
   { SignIn, SignUp },
@@ -21,6 +22,7 @@ const AppStack = createStackNavigator(
     Sizes,
     Cart,
     Profile,
+    Order,
   },
   {
     initialRouteName: 'Main',
