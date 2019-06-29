@@ -123,7 +123,7 @@ export const OrderButton = styled.TouchableOpacity.attrs({
 `;
 
 export const OrderButtonText = styled.Text`
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
   color: #fff;
   text-align: center;

@@ -103,7 +103,7 @@ class Cart extends Component {
             <Icon name="add-shopping-cart" size={24} color="#555" />
           </MainButton>
           <OrderButton onPress={() => navigation.navigate('Order')}>
-            <OrderButtonText>Realizar pedido</OrderButtonText>
+            <OrderButtonText>REALIZAR PEDIDO</OrderButtonText>
           </OrderButton>
         </Footer>
       </Container>
