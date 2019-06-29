@@ -3,75 +3,82 @@ import styled from 'styled-components';
 export const Container = styled.View`
   height: 100%;
   width: 100%;
-  padding: 15px;
-
-  background: rebeccapurple;
 `;
 
 export const CartList = styled.FlatList.attrs({
-  contentContainerStyle: { paddingVertical: 5 },
-})`
-  background: yellow;
-  border-width: 2px;
-  border-color: blue;
-`;
+  contentContainerStyle: { paddingVertical: 10, alignItems: 'center' },
+})``;
 
 export const OrderItem = styled.View`
+  width: 90%;
   flex-direction: row;
   align-items: center;
   border-radius: 10px;
   margin: 5px 0;
-  padding: 12px;
+  padding: 15px 12px;
+  background: #fff;
 
-  background: gray;
-  border-width: 1px;
-  border-color: red;
+  shadow-opacity: 0.7;
+  shadow-radius: 11px;
+  shadow-color: #000;
+  shadow-offset: 10px 10px;
+  elevation: 8;
 `;
 
 export const ProductImage = styled.Image`
   width: 80px;
   height: 80px;
   border-radius: 10px;
-
-  background: blue;
-  border-width: 1px;
-  border-color: black;
 `;
 
 export const OrderInfo = styled.View`
   margin-left: 10px;
   flex: 1;
-
-  border-width: 1px;
-  border-color: red;
+  height: 80px;
+  justify-content: space-between;
 `;
 
 export const ProductTitle = styled.Text`
   color: #0b2031;
-
-  background: green;
+  font-size: 15px;
 `;
 
 export const ProductSize = styled.Text`
   font-size: 13px;
   color: #706e7b;
-  margin: 3px 0;
-
-  background: pink;
-`;
-
-export const OrderItemCost = styled.View`
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-
-  background: peru;
+  margin-bottom: 10px;
 `;
 
 export const ProductPrice = styled.Text`
   color: #0b2031;
   font-size: 18px;
   font-weight: bold;
+`;
+
+export const OrderQuantity = styled.View`
+  align-items: center;
+  margin: 0 10px;
+
+  height: 80px;
+  justify-content: space-between;
+`;
+
+export const QuantityValue = styled.Text`
+  color: #0b2031;
+  width: 20px;
+  text-align: center;
+  font-size: 15px;
+`;
+
+export const QuantityButton = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.5,
+})`
+  height: 20px;
+  width: 20px;
+  border-radius: 10px;
+  background: #0b2031;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const DeleteButton = styled.TouchableOpacity.attrs({
@@ -82,70 +89,42 @@ export const DeleteButton = styled.TouchableOpacity.attrs({
   flex-direction: row;
   align-items: center;
   margin-left: 5px;
-
-  background: red;
-`;
-
-export const OrderQuantity = styled.View`
-  flex-direction: row;
-  align-items: center;
-  margin-right: 5px;
-`;
-
-export const QuantityValue = styled.Text`
-  color: #0b2031;
-  width: 20px;
-  text-align: center;
-  margin: 0 8px;
-  font-size: 15px;
-`;
-
-export const QuantityButton = styled.TouchableOpacity.attrs({
-  activeOpacity: 0.5,
-})`
-  height: 16px;
-  width: 16px;
-  border-radius: 8px;
-  background: #fff;
-  align-items: center;
-  justify-content: center;
 `;
 
 export const Footer = styled.View`
+  width: 90%;
+  align-self: center;
   flex-direction: row;
   justify-content: space-between;
-  padding-top: 20px;
-
-  background: orange;
-  border-width: 1px;
-  border-color: blue;
+  padding: 20px 0;
 `;
 
 export const MainButton = styled.TouchableOpacity.attrs({
   activeOpacity: 0.7,
 })`
-  width: 36px;
-  height: 36px;
-  border-radius: 18px;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
   align-items: center;
   justify-content: center;
 
-  background: #293def;
+  background: #ccc;
 `;
 
 export const OrderButton = styled.TouchableOpacity.attrs({
   activeOpacity: 0.7,
 })`
-  height: 36px;
+  height: 40px;
   padding: 0 30px;
-  border-radius: 18px;
-  background: red;
+  border-radius: 20px;
+  background: #e62638;
   align-items: center;
   justify-content: center;
 `;
 
 export const OrderButtonText = styled.Text`
   font-size: 18px;
+  font-weight: bold;
   color: #fff;
   text-align: center;
 `;

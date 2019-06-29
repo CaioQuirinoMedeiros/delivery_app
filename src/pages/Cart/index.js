@@ -16,7 +16,6 @@ import {
   OrderInfo,
   ProductTitle,
   ProductSize,
-  OrderItemCost,
   ProductPrice,
   OrderQuantity,
   QuantityButton,
@@ -66,25 +65,25 @@ class Cart extends Component {
 
     return (
       <OrderItem>
-        <ProductImage source={{ uri: item.product.image.url }} />
+        <ProductImage
+          source={{ uri: 'https://optepizza.com.br/wp-content/uploads/opte-pizza.png' }}
+        />
         <OrderInfo>
-          <ProductTitle>{item.product.name}</ProductTitle>
-          <ProductSize>{`Tamanho: ${item.size.name}`}</ProductSize>
-          <OrderItemCost>
-            <ProductPrice>{item.subtotal}</ProductPrice>
-            <OrderQuantity>
-              <QuantityButton onPress={() => attItemQuantity(item.id, quantity - 1)}>
-                <Icon name="remove" />
-              </QuantityButton>
-              <QuantityValue>{item.quantity}</QuantityValue>
-              <QuantityButton onPress={() => attItemQuantity(item.id, quantity + 1)}>
-                <Icon name="add" />
-              </QuantityButton>
-            </OrderQuantity>
-          </OrderItemCost>
+          <ProductTitle numberOfLines={1}>{item.product.name}</ProductTitle>
+          <ProductSize numberOfLines={1}>{`Tamanho: ${item.size.name}`}</ProductSize>
+          <ProductPrice>{item.subtotal}</ProductPrice>
         </OrderInfo>
+        <OrderQuantity>
+          <QuantityButton onPress={() => attItemQuantity(item.id, quantity + 1)}>
+            <Icon name="add" color="#fff" />
+          </QuantityButton>
+          <QuantityValue>{item.quantity}</QuantityValue>
+          <QuantityButton onPress={() => attItemQuantity(item.id, quantity - 1)}>
+            <Icon name="remove" color="#fff" />
+          </QuantityButton>
+        </OrderQuantity>
         <DeleteButton onPress={() => removeItem(item.id)}>
-          <Icon name="delete-forever" size={24} />
+          <Icon name="delete-forever" size={24} color="#E62638" />
         </DeleteButton>
       </OrderItem>
     );
@@ -101,7 +100,7 @@ class Cart extends Component {
         />
         <Footer>
           <MainButton onPress={() => navigation.navigate('Main')}>
-            <Icon name="add-shopping-cart" size={24} />
+            <Icon name="add-shopping-cart" size={24} color="#555" />
           </MainButton>
           <OrderButton onPress={() => navigation.navigate('Order')}>
             <OrderButtonText>Realizar pedido</OrderButtonText>
