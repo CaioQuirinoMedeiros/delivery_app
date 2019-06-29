@@ -5,15 +5,13 @@ export const Container = styled.View`
   width: 100%;
   padding: 15px 0;
 
-  background: rebeccapurple;
+  background-color: transparent;
 `;
 
 export const ProductsList = styled.FlatList.attrs({
   contentContainerStyle: { paddingVertical: 5 },
   columnWrapperStyle: { justifyContent: 'space-evenly' },
-})`
-  background: yellow;
-`;
+})``;
 
 export const Product = styled.TouchableOpacity.attrs({
   activeOpacity: 0.7,

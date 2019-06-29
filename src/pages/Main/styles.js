@@ -5,7 +5,7 @@ export const Container = styled.View`
   width: 100%;
   padding: 15px;
 
-  background: rebeccapurple;
+  background: transparent;
 `;
 
 export const CategoriesList = styled.FlatList.attrs({

@@ -1,3 +1,4 @@
+import React from 'react';
 import { createAppContainer, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 
 import SignIn from './pages/Auth/SignIn';
@@ -9,6 +10,8 @@ import Sizes from './pages/Sizes';
 import Cart from './pages/Cart';
 import Profile from './pages/Profile';
 import Order from './pages/Order';
+
+import Background from './styles';
 
 const AuthStack = createStackNavigator(
   { SignIn, SignUp },
@@ -27,14 +30,21 @@ const AppStack = createStackNavigator(
   {
     initialRouteName: 'Main',
     headerMode: 'float',
-    defaultNavigationOptions: { headerStyle: { height: 60 } },
+    transparentCard: true,
+
+    defaultNavigationOptions: {
+      headerStyle: { height: 60, backgroundColor: 'transparent' },
+      headerTintColor: '#fff',
+    },
   },
 );
 
 const createNavigator = isLoggedIn => createAppContainer(
   createSwitchNavigator(
     { AuthStack, AppStack },
-    { initialRouteName: isLoggedIn ? 'AppStack' : 'AuthStack' },
+    {
+      initialRouteName: isLoggedIn ? 'AppStack' : 'AuthStack',
+    },
   ),
 );
 

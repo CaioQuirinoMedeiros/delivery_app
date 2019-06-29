@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
+
+import { Background } from './styles';
 
 import createNavigator from './routes';
 
@@ -21,7 +23,12 @@ class App extends Component {
     if (!auth.authChecked) return <ActivityIndicator />;
 
     const Routes = createNavigator(auth.signedIn);
-    return <Routes />;
+    return (
+      <>
+        <Background />
+        <Routes />
+      </>
+    );
   }
 }
 

@@ -5,8 +5,6 @@ export const Container = styled.View`
   justify-content: space-between;
   align-items: center;
   height: ${props => `${props.headerHeight}px`};
-
-  background: #e3aadd;
 `;
 
 export const Button = styled.TouchableOpacity.attrs({
