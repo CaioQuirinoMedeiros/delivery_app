@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, StatusBar } from 'react-native';
 
 import { Background } from './styles';
 
@@ -25,7 +25,8 @@ class App extends Component {
     const Routes = createNavigator(auth.signedIn);
     return (
       <>
-        <Background />
+        <StatusBar backgroundColor="#0B2031" barStyle="light-content" />
+        {auth.signedIn && <Background />}
         <Routes />
       </>
     );
