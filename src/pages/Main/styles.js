@@ -12,8 +12,6 @@ export const CategoriesList = styled.FlatList.attrs({
   contentContainerStyle: { paddingVertical: 5 },
 })`
   background: yellow;
-  border-width: 2px;
-  border-color: blue;
 `;
 
 export const Category = styled.TouchableOpacity.attrs({

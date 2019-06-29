@@ -13,8 +13,6 @@ export const ProductsList = styled.FlatList.attrs({
   columnWrapperStyle: { justifyContent: 'space-evenly' },
 })`
   background: yellow;
-  border-width: 2px;
-  border-color: blue;
 `;
 
 export const Product = styled.TouchableOpacity.attrs({
