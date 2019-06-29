@@ -62,8 +62,9 @@ const removeItem = (state, { id }) => state.merge({ data: state.data.filter(item
 
 const attItemQuantity = (state, { id, quantity }) => state.merge({
   data: state.data.map((item) => {
-    if (item.id === id) item.quantity = quantity;
-
+    if (item.id === id) {
+      return { ...item, quantity };
+    }
     return item;
   }),
 });
