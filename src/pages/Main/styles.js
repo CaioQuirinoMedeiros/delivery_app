@@ -35,9 +35,13 @@ export const CategoryImage = styled.Image`
 `;
 
 export const CategoryInfo = styled.View`
+  height: 80px;
   margin-left: 10px;
   flex: 1;
+  justify-content: space-between;
 `;
+
+export const CategoryInfoWrapper = styled.View``;
 
 export const CategoryTitle = styled.Text`
   color: #0b2031;
@@ -46,8 +50,7 @@ export const CategoryTitle = styled.Text`
 
 export const CategoryDescription = styled.Text`
   font-size: 13px;
-  color: #888;
-  margin: 3px 0;
+  color: #706e7b;
 `;
 
 export const CategoryCookTime = styled.View`
@@ -56,7 +59,7 @@ export const CategoryCookTime = styled.View`
 `;
 
 export const CategoryCookTimeText = styled.Text`
-  color: #888;
+  color: #706e7b;
   font-size: 13px;
   margin-left: 5px;
 `;

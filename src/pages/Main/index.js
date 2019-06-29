@@ -10,6 +10,7 @@ import {
   Category,
   CategoryImage,
   CategoryInfo,
+  CategoryInfoWrapper,
   CategoryTitle,
   CategoryDescription,
   CategoryCookTime,
@@ -68,8 +69,10 @@ class Main extends Component {
         }}
       />
       <CategoryInfo>
-        <CategoryTitle>{item.name}</CategoryTitle>
-        <CategoryDescription>{item.description}</CategoryDescription>
+        <CategoryInfoWrapper>
+          <CategoryTitle>{item.name}</CategoryTitle>
+          <CategoryDescription>{item.description}</CategoryDescription>
+        </CategoryInfoWrapper>
         <CategoryCookTime>
           <Icon name="alarm" size={16} color="#ccc" />
           <CategoryCookTimeText>{`${item.cook_time} mins`}</CategoryCookTimeText>
