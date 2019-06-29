@@ -17,6 +17,8 @@ import {
   OrderItemCost,
   ProductPrice,
   OrderQuantity,
+  QuantityButton,
+  QuantityValue,
   DeleteButton,
   Footer,
   MainButton,
@@ -49,6 +51,7 @@ class Cart extends Component {
       ),
     }).isRequired,
     removeItem: PropTypes.func.isRequired,
+    attItemQuantity: PropTypes.func.isRequired,
     navigation: PropTypes.shape({
       navigate: PropTypes.func,
     }).isRequired,
@@ -57,17 +60,26 @@ class Cart extends Component {
   componentDidMount() {}
 
   renderOrderItem = ({ item }) => {
-    const { removeItem } = this.props;
+    const { removeItem, attItemQuantity } = this.props;
+    const { quantity } = item;
 
     return (
       <OrderItem>
         <ProductImage source={{ uri: item.product.image.url }} />
         <OrderInfo>
           <ProductTitle>{item.product.name}</ProductTitle>
-          <ProductSize>{item.size.name}</ProductSize>
+          <ProductSize>{`Tamanho: ${item.size.name}`}</ProductSize>
           <OrderItemCost>
-            <ProductPrice>{item.price * item.quantity}</ProductPrice>
-            <OrderQuantity>{item.quantity}</OrderQuantity>
+            <ProductPrice>{`R$${item.subtotal}`}</ProductPrice>
+            <OrderQuantity>
+              <QuantityButton onPress={() => attItemQuantity(item.id, quantity - 1)}>
+                <Icon name="remove" />
+              </QuantityButton>
+              <QuantityValue>{item.quantity}</QuantityValue>
+              <QuantityButton onPress={() => attItemQuantity(item.id, quantity + 1)}>
+                <Icon name="add" />
+              </QuantityButton>
+            </OrderQuantity>
           </OrderItemCost>
         </OrderInfo>
         <DeleteButton onPress={() => removeItem(item.id)}>
@@ -99,8 +111,26 @@ class Cart extends Component {
   }
 }
 
+const convertToBRL = (item) => {
+  let subtotal = (item.price * item.quantity).toFixed(2);
+
+  subtotal = subtotal.replace(/[.]/g, ',');
+
+  return { ...item, subtotal };
+};
+
 const mapStateToProps = state => ({
-  cart: state.cart,
+  cart: {
+    ...state.cart,
+    data: state.cart.data.map(item => convertToBRL(item)),
+  },
+  // cart: {
+  //   ...state.cart,
+  //   data: state.cart.data.map(item => ({
+  //     ...item,
+  //     subtotal: (item.price * item.quantity).toFixed(2).replace(/,/g, '.'),
+  //   })),
+  // },
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(CartActions, dispatch);

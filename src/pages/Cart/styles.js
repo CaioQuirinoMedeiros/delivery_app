@@ -16,9 +16,7 @@ export const CartList = styled.FlatList.attrs({
   border-color: blue;
 `;
 
-export const OrderItem = styled.TouchableOpacity.attrs({
-  activeOpacity: 0.7,
-})`
+export const OrderItem = styled.View`
   flex-direction: row;
   align-items: center;
   border-radius: 10px;
@@ -72,12 +70,8 @@ export const OrderItemCost = styled.View`
 
 export const ProductPrice = styled.Text`
   color: #0b2031;
-  font-size: 15px;
-`;
-
-export const OrderQuantity = styled.Text`
-  color: #0b2031;
-  font-size: 15px;
+  font-size: 18px;
+  font-weight: bold;
 `;
 
 export const DeleteButton = styled.TouchableOpacity.attrs({
@@ -87,9 +81,34 @@ export const DeleteButton = styled.TouchableOpacity.attrs({
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding-left: 5px;
+  margin-left: 5px;
 
   background: red;
+`;
+
+export const OrderQuantity = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-right: 5px;
+`;
+
+export const QuantityValue = styled.Text`
+  color: #0b2031;
+  width: 20px;
+  text-align: center;
+  margin: 0 8px;
+  font-size: 15px;
+`;
+
+export const QuantityButton = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.5,
+})`
+  height: 16px;
+  width: 16px;
+  border-radius: 8px;
+  background: #fff;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const Footer = styled.View`
