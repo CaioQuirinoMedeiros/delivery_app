@@ -22,6 +22,12 @@ class Sizes extends Component {
       navigate: PropTypes.func,
     }).isRequired,
     addItem: PropTypes.func.isRequired,
+    attItemQuantity: PropTypes.func.isRequired,
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+      }),
+    ).isRequired,
   };
 
   state = {
@@ -57,21 +63,31 @@ class Sizes extends Component {
   };
 
   handleSizeSelect = async (id) => {
-    const { navigation, addItem } = this.props;
+    const {
+      navigation, addItem, attItemQuantity, items,
+    } = this.props;
 
-    try {
-      this.setState({ refreshing: true });
-      const response = await api.get(`sizes/${id}`);
+    const itemInCart = items.find(item => item.id === id);
 
-      console.log(response);
-
-      addItem({ ...response.data, quantity: 1 });
+    if (itemInCart) {
+      attItemQuantity(id, itemInCart.quantity + 1);
 
       navigation.navigate('Cart');
-    } catch (err) {
-      console.log(err);
-    } finally {
-      this.setState({ refreshing: false });
+    } else {
+      try {
+        this.setState({ refreshing: true });
+        const response = await api.get(`sizes/${id}`);
+
+        console.log(response);
+
+        addItem({ ...response.data, quantity: 1 });
+
+        navigation.navigate('Cart');
+      } catch (err) {
+        console.log(err);
+      } finally {
+        this.setState({ refreshing: false });
+      }
     }
   };
 
@@ -106,9 +122,13 @@ class Sizes extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  items: state.cart.data,
+});
+
 const mapDispatchToProps = dispatch => bindActionCreators(CartActions, dispatch);
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(Sizes);
