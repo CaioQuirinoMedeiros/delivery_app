@@ -3,9 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.View`
   height: 100%;
   width: 100%;
-  padding: 15px 0;
-
-  background-color: transparent;
+  /* padding: 15px 0; */
 `;
 
 export const ProductsList = styled.FlatList.attrs({

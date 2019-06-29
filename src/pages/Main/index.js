@@ -61,12 +61,17 @@ class Main extends Component {
 
   renderCategory = ({ item }) => (
     <Category onPress={() => this.handleCategorySelect(item.id)}>
-      <CategoryImage source={{ uri: item.image.url }} />
+      <CategoryImage
+        source={{
+          uri:
+            'http://www.ocladapizza.com.br/wp-content/uploads/2017/02/massa-da-pizza-conhe%C3%A7a-6-ingredientes-e-suas-fun%C3%A7%C3%B5es-blog-pizzaria-o-cla-da-pizza-660x420.jpg',
+        }}
+      />
       <CategoryInfo>
         <CategoryTitle>{item.name}</CategoryTitle>
         <CategoryDescription>{item.description}</CategoryDescription>
         <CategoryCookTime>
-          <Icon name="alarm" size={16} />
+          <Icon name="alarm" size={16} color="#ccc" />
           <CategoryCookTimeText>{`${item.cook_time} mins`}</CategoryCookTimeText>
         </CategoryCookTime>
       </CategoryInfo>
