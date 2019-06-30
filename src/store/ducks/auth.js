@@ -11,7 +11,6 @@ const { Types, Creators } = createActions({
   signOut: null,
   signUpRequest: ['name', 'email', 'password'],
   signUpSuccess: null,
-  getPermissionsSuccess: ['roles'],
   initCheckSuccess: null,
 });
 
@@ -26,16 +25,19 @@ export const INITIAL_STATE = Immutable({
   signedIn: false,
   token: null,
   roles: [],
+  loading: false,
 });
 
 /**
  * Reducers
  */
-const success = (state, { token }) => state.merge({ signedIn: true, token });
+const request = state => state.merge({ loading: true });
+
+const success = (state, { token }) => state.merge({ signedIn: true, token, loading: false });
+
+const failure = state => state.merge({ loading: false });
 
 const logout = state => state.merge({ signedIn: false, token: null });
-
-const permissionsSuccess = (state, { roles, permissions }) => state.merge({ roles, permissions });
 
 const checkSuccess = state => state.merge({ authChecked: true });
 
@@ -43,8 +45,9 @@ const checkSuccess = state => state.merge({ authChecked: true });
  * Reducers to types
  */
 export const reducer = createReducer(INITIAL_STATE, {
+  [Types.SIGN_IN_REQUEST]: request,
   [Types.SIGN_IN_SUCCESS]: success,
+  [Types.SIGN_IN_FAILURE]: failure,
   [Types.SIGN_OUT]: logout,
-  [Types.GET_PERMISSIONS_SUCCESS]: permissionsSuccess,
   [Types.INIT_CHECK_SUCCESS]: checkSuccess,
 });

@@ -23,6 +23,7 @@ export function* signIn({ email, password }) {
 
     if (!response.data.roles.includes('client')) {
       yield put(ToastActionsCreators.displayError('Apenas clientes pode entrar aqui'));
+      yield put(AuthActions.signInFailure());
 
       return;
     }
@@ -34,6 +35,7 @@ export function* signIn({ email, password }) {
     yield put(ToastActionsCreators.displayInfo('Login realizado com sucesso'));
   } catch (err) {
     console.log(err);
+    yield put(AuthActions.signInFailure());
     yield put(ToastActionsCreators.displayError('Credenciais inválidas'));
   }
 }
