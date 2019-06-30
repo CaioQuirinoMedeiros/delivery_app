@@ -9,7 +9,9 @@ export const OrdersList = styled.FlatList.attrs({
   contentContainerStyle: { paddingVertical: 10, alignItems: 'center' },
 })``;
 
-export const OrderItem = styled.View`
+export const OrderItem = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.7,
+})`
   width: 90%;
   flex-direction: row;
   align-items: center;
@@ -82,7 +84,7 @@ export const LogoutButtonText = styled.Text`
 `;
 
 export const EmptyMessage = styled.Text`
-  font-size: 24px;
+  font-size: 22px;
   width: 100%;
   text-align: center;
   color: #706e7b;
