@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-import { distanceInWordsToNow } from 'date-fns';
+import { distanceInWordsToNow, format } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 
 import api from '../../services/api';
 import { convertToBRL } from '../../services/currency';
+
+import BackButton from '../../components/BackButton';
+import OrderModal from '../../components/OrderModal';
 
 import {
   Container,
@@ -26,9 +29,12 @@ import {
 import AuthActions from '../../store/ducks/auth';
 
 class Profile extends Component {
-  static navigationOptions = {
+  static navigationOptions = ({ navigation }) => ({
     title: 'Meus pedidos',
-  };
+    headerLeft: ({ tintColor }) => (
+      <BackButton tintColor={tintColor} onPress={() => navigation.navigate('Main')} />
+    ),
+  });
 
   static propTypes = {
     signOut: PropTypes.func.isRequired,
@@ -40,9 +46,11 @@ class Profile extends Component {
   state = {
     orders: [],
     refreshing: false,
+    modalOrder: null,
   };
 
   componentDidMount() {
+    this.setState({ modalOrder: null });
     this.loadOrders();
   }
 
@@ -65,6 +73,26 @@ class Profile extends Component {
     }
   };
 
+  loadOrder = async (id) => {
+    try {
+      const { data } = await api.get(`orders/${id}`);
+
+      this.setState({
+        modalOrder: {
+          ...data,
+          total: convertToBRL(Number(data.total)),
+          created_at: format(data.created_at, 'MM/DD/YYYY [às] HH:mm', { locale: pt }),
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  closeOrder = () => {
+    this.setState({ modalOrder: null });
+  };
+
   signOut = () => {
     const { signOut } = this.props;
 
@@ -72,7 +100,7 @@ class Profile extends Component {
   };
 
   renderOrderItem = ({ item, index }) => (
-    <OrderItem>
+    <OrderItem onPress={() => this.loadOrder(item.id)}>
       <OrderInfo>
         <OrderNumber>{`Pedido #${index + 1}`}</OrderNumber>
         <OrderElapsedTime>{item.elapsedTime}</OrderElapsedTime>
@@ -83,21 +111,25 @@ class Profile extends Component {
   );
 
   render() {
-    const { orders, refreshing } = this.state;
+    const { orders, refreshing, modalOrder } = this.state;
 
     return (
       <Container>
+        {modalOrder ? <OrderModal order={modalOrder} closeOrder={this.closeOrder} /> : null}
+
         <OrdersList
           data={orders}
           keyExtractor={item => String(item.id)}
           renderItem={this.renderOrderItem}
           onRefresh={this.loadOrders}
           refreshing={refreshing}
-          ListEmptyComponent={(
-            <OrderItem>
-              <EmptyMessage>Nenhum pedido no histórico</EmptyMessage>
-            </OrderItem>
-)}
+          ListEmptyComponent={
+            !refreshing && (
+              <OrderItem>
+                <EmptyMessage>Nenhum histórico de pedido</EmptyMessage>
+              </OrderItem>
+            )
+          }
         />
         <Footer>
           <LogoutButton onPress={this.signOut}>
