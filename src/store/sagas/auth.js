@@ -21,6 +21,12 @@ export function* signIn({ email, password }) {
   try {
     const response = yield call(api.post, 'sessions', { email, password });
 
+    if (!response.data.roles.includes('client')) {
+      yield put(ToastActionsCreators.displayError('Apenas clientes pode entrar aqui'));
+
+      return;
+    }
+
     yield call([AsyncStorage, 'setItem'], '@delivery:token', response.data.token);
 
     yield put(AuthActions.signInSuccess(response.data.token));
