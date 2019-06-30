@@ -1,10 +1,13 @@
 /* eslint-disable max-len */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import logo from '../../../assets/images/logo3x.png';
-
 import api from '../../../services/api';
+
+import AuthActions from '../../../store/ducks/auth';
 
 import {
   Container,
@@ -17,11 +20,12 @@ import {
   Logo,
 } from '../styles';
 
-export default class SignUp extends Component {
+class SignUp extends Component {
   static propTypes = {
     navigation: PropTypes.shape({
       navigate: PropTypes.func,
     }).isRequired,
+    signInRequest: PropTypes.func.isRequired,
   };
 
   state = {
@@ -33,17 +37,24 @@ export default class SignUp extends Component {
     passwordConfirmationSecure: true,
   };
 
-  handleSubmit = async () => {
+  handleSignUpSubmit = async () => {
+    const { signInRequest } = this.props;
     const {
       name, email, password, passwordConfirmation,
     } = this.state;
 
-    await api.post('users', {
-      name,
-      email,
-      password,
-      password_confirmation: passwordConfirmation,
-    });
+    try {
+      await api.post('users', {
+        name,
+        email,
+        password,
+        password_confirmation: passwordConfirmation,
+      });
+
+      signInRequest(email, password);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   render() {
@@ -117,6 +128,7 @@ export default class SignUp extends Component {
             autoCapitalize="none"
             autoCorrect={false}
             returnKeyType="send"
+            onSubmitEditing={this.handleSignUpSubmit}
             ref={(el) => {
               this.passwordConfirmationInput = el;
             }}
@@ -130,7 +142,7 @@ export default class SignUp extends Component {
           />
         </PasswordInput>
 
-        <SubmitButton onPress={this.handleSubmit}>
+        <SubmitButton onPress={this.handleSignUpSubmit}>
           <ButtonText>Criar conta</ButtonText>
         </SubmitButton>
 
@@ -141,3 +153,10 @@ export default class SignUp extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => bindActionCreators(AuthActions, dispatch);
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(SignUp);
