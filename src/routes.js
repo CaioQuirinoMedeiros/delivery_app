@@ -1,5 +1,7 @@
 import { createAppContainer, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 
+import BackButton from './components/BackButton';
+
 import SignIn from './pages/Auth/SignIn';
 import SignUp from './pages/Auth/SignUp';
 
@@ -38,6 +40,8 @@ const AppStack = createStackNavigator(
         backgroundColor: 'transparent',
       },
       headerTintColor: '#fff',
+      headerLeft: BackButton,
+      headerTitleStyle: { marginHorizontal: 0 },
     },
   },
 );
