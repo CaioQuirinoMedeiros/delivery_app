@@ -27,7 +27,9 @@ export const Size = styled.TouchableOpacity.attrs({
   elevation: 8;
 `;
 
-export const SizeImage = styled.Image`
+export const SizeImage = styled.Image.attrs({
+  resizeMode: 'center',
+})`
   width: 110px;
   height: 110px;
   border-radius: 10px;
