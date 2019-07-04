@@ -10,7 +10,7 @@ const Root = () => (
   <Provider store={store}>
     <>
       <App />
-      <Toast />
+      <Toast messageStyle={{ color: '#fff' }} containerStyle={{ backgroundColor: '#548a56' }} />
     </>
   </Provider>
 );
