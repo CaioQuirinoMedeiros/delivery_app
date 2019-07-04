@@ -32,7 +32,7 @@ export function* signIn({ email, password }) {
 
     yield put(AuthActions.signInSuccess(response.data.token));
 
-    yield put(ToastActionsCreators.displayInfo('Login realizado com sucesso'));
+    yield put(ToastActionsCreators.displayInfo('Bem-vindo!'));
   } catch (err) {
     console.log(err);
     yield put(AuthActions.signInFailure());
