@@ -62,7 +62,7 @@ class Profile extends Component {
       this.setState({
         orders: data.map(order => ({
           ...order,
-          elapsedTime: distanceInWordsToNow(order.created_at, { locale: pt }),
+          elapsedTime: distanceInWordsToNow(order.created_at, { locale: pt, addSuffix: true }),
           total: convertToBRL(Number(order.total)),
         })),
       });
