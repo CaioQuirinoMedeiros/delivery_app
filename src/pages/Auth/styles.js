@@ -29,7 +29,9 @@ export const EyeIcon = styled(Icon)`
   top: 12px;
 `;
 
-export const SubmitButton = styled.TouchableOpacity`
+export const SubmitButton = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.7,
+})`
   width: 100%;
   background: #f15454;
   border-radius: 10px;
