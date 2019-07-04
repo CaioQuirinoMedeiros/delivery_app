@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import { REACT_APP_API_URL } from 'react-native-dotenv';
 
 import CartActions from '../../store/ducks/cart';
 import { convertToBRL } from '../../services/currency';
@@ -52,8 +53,6 @@ class Sizes extends Component {
         price: convertToBRL(Number(item.price)),
       }));
 
-      console.log(sizes);
-
       this.setState({ sizes });
     } catch (err) {
       console.log(err);
@@ -78,8 +77,6 @@ class Sizes extends Component {
         this.setState({ refreshing: true });
         const response = await api.get(`sizes/${id}`);
 
-        console.log(response);
-
         addItem({ ...response.data, quantity: 1 });
 
         navigation.navigate('Cart');
@@ -95,8 +92,9 @@ class Sizes extends Component {
     <Size onPress={() => this.handleSizeSelect(item.id)}>
       <SizeImage
         source={{
-          uri:
-            'https://previews.123rf.com/images/alexutemov/alexutemov1511/alexutemov151100311/48202556-pizza-flat-icons-isolated-on-white-background-pizza-food-silhouette-pizza-piece-pizza-slice-pizza-me.jpg',
+          uri: `${REACT_APP_API_URL}/uploads/${
+            item.size.image ? item.size.image.path : 'no-image.jpg'
+          }`,
         }}
       />
       <SizeTitle>{item.size.name}</SizeTitle>

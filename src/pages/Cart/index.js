@@ -3,6 +3,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import { REACT_APP_API_URL } from 'react-native-dotenv';
 
 import CartTotal from '../../components/CartTotal';
 import CartActions from '../../store/ducks/cart';
@@ -67,7 +68,11 @@ class Cart extends Component {
     return (
       <OrderItem>
         <ProductImage
-          source={{ uri: 'https://optepizza.com.br/wp-content/uploads/opte-pizza.png' }}
+          source={{
+            uri: `${REACT_APP_API_URL}/uploads/${
+              item.product.image ? item.product.image.path : 'no-image.jpg'
+            }`,
+          }}
         />
         <OrderInfo>
           <ProductTitle numberOfLines={1}>{item.product.name}</ProductTitle>

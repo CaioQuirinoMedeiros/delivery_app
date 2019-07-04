@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { REACT_APP_API_URL } from 'react-native-dotenv';
 
 import api from '../../services/api';
 
@@ -64,8 +65,7 @@ class Main extends Component {
     <Category onPress={() => this.handleCategorySelect(item.id)}>
       <CategoryImage
         source={{
-          uri:
-            'http://www.ocladapizza.com.br/wp-content/uploads/2017/02/massa-da-pizza-conhe%C3%A7a-6-ingredientes-e-suas-fun%C3%A7%C3%B5es-blog-pizzaria-o-cla-da-pizza-660x420.jpg',
+          uri: `${REACT_APP_API_URL}/uploads/${item.image ? item.image.path : 'no-image.jpg'}`,
         }}
       />
       <CategoryInfo>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { REACT_APP_API_URL } from 'react-native-dotenv';
 
 import api from '../../services/api';
 
@@ -50,14 +51,19 @@ class Products extends Component {
     navigation.navigate('Sizes', { productId: id });
   };
 
-  renderProduct = ({ item }) => (
-    <Product onPress={() => this.handleProductSelect(item.id)}>
-      <ProductImage
-        source={{ uri: 'https://optepizza.com.br/wp-content/uploads/opte-pizza.png' }}
-      />
-      <ProductTitle>{item.name}</ProductTitle>
-    </Product>
-  );
+  renderProduct = ({ item }) => {
+    console.log(item);
+    return (
+      <Product onPress={() => this.handleProductSelect(item.id)}>
+        <ProductImage
+          source={{
+            uri: `${REACT_APP_API_URL}/uploads/${item.image ? item.image.path : 'no-image.jpg'}`,
+          }}
+        />
+        <ProductTitle>{item.name}</ProductTitle>
+      </Product>
+    );
+  };
 
   render() {
     const { products, refreshing } = this.state;
