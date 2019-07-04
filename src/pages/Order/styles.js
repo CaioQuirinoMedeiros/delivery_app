@@ -17,7 +17,6 @@ export const InputWrapper = styled.View`
 
 export const Input = styled.TextInput`
   flex: ${props => (props.placeholder === 'Rua' ? 5 : 1)};
-  height: ${props => (props.multiline ? '100px' : 'auto')};
   border-radius: 10px;
   padding: 15px;
   margin: 5px 0;

@@ -96,6 +96,8 @@ class Order extends Component {
         <InputWrapper>
           <Input
             multiline
+            numberOfLines={4}
+            textAlignVertical="top"
             placeholder="Alguma observação?"
             value={notes}
             onChangeText={text => this.setState({ notes: text })}
