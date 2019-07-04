@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-export const Container = styled.View`
+export const Container = styled.KeyboardAvoidingView`
   width: 100%;
   flex: 1;
   align-items: center;
