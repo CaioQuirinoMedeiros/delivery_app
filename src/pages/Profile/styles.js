@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import styled from 'styled-components';
 
 export const Container = styled.View`
@@ -53,7 +54,7 @@ export const OrderTotal = styled.Text`
 export const OrderStatus = styled.Text`
   align-self: flex-end;
   font-weight: bold;
-  color: ${props => (props.status === 'finished' ? '#378f32' : 'orange')};
+  color: ${props => (props.status === 'pendente' ? 'orange' : props.status === 'cancelado' ? 'red' : 'green')};
 `;
 
 export const Footer = styled.View`
