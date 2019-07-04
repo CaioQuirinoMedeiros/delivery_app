@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { REACT_APP_API_URL } from 'react-native-dotenv';
+import { ToastActionsCreators } from 'react-native-redux-toast';
 
 import api from '../../services/api';
 
@@ -31,6 +34,7 @@ class Main extends Component {
     navigation: PropTypes.shape({
       navigate: PropTypes.func,
     }).isRequired,
+    displayError: PropTypes.func.isRequired,
   };
 
   state = {
@@ -43,6 +47,7 @@ class Main extends Component {
   }
 
   loadCategories = async () => {
+    const { displayError } = this.props;
     try {
       this.setState({ refreshing: true });
       const response = await api.get('categories');
@@ -50,6 +55,7 @@ class Main extends Component {
       this.setState({ categories: response.data });
     } catch (err) {
       console.log(err);
+      displayError('Erro ao buscar categorias');
     } finally {
       this.setState({ refreshing: false });
     }
@@ -99,4 +105,9 @@ class Main extends Component {
   }
 }
 
-export default Main;
+const mapDispatchToProps = dispatch => bindActionCreators(ToastActionsCreators, dispatch);
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(Main);

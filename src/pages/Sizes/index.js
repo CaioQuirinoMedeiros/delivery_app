@@ -1,8 +1,10 @@
+/* eslint-disable max-len */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { REACT_APP_API_URL } from 'react-native-dotenv';
+import { ToastActionsCreators } from 'react-native-redux-toast';
 
 import CartActions from '../../store/ducks/cart';
 import { convertToBRL } from '../../services/currency';
@@ -23,6 +25,8 @@ class Sizes extends Component {
       navigate: PropTypes.func,
     }).isRequired,
     addItem: PropTypes.func.isRequired,
+    displayError: PropTypes.func.isRequired,
+    displayInfo: PropTypes.func.isRequired,
     attItemQuantity: PropTypes.func.isRequired,
     items: PropTypes.arrayOf(
       PropTypes.shape({
@@ -63,7 +67,7 @@ class Sizes extends Component {
 
   handleSizeSelect = async (id) => {
     const {
-      navigation, addItem, attItemQuantity, items,
+      navigation, addItem, attItemQuantity, items, displayError, displayInfo,
     } = this.props;
 
     const itemInCart = items.find(item => item.id === id);
@@ -72,6 +76,7 @@ class Sizes extends Component {
       attItemQuantity(id, itemInCart.quantity + 1);
 
       navigation.navigate('Cart');
+      displayInfo('Mais uma unidade no carrinho!');
     } else {
       try {
         this.setState({ refreshing: true });
@@ -80,8 +85,10 @@ class Sizes extends Component {
         addItem({ ...response.data, quantity: 1 });
 
         navigation.navigate('Cart');
+        displayInfo('Item adicionado no carrinho!');
       } catch (err) {
         console.log(err);
+        displayError('Produto não encontrado');
       } finally {
         this.setState({ refreshing: false });
       }
@@ -124,7 +131,7 @@ const mapStateToProps = state => ({
   items: state.cart.data,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(CartActions, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ ...ToastActionsCreators, ...CartActions }, dispatch);
 
 export default connect(
   mapStateToProps,

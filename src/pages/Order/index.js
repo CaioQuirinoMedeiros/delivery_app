@@ -1,7 +1,9 @@
+/* eslint-disable max-len */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import { ToastActionsCreators } from 'react-native-redux-toast';
 import axios from 'axios';
 
 import api from '../../services/api';
@@ -28,6 +30,8 @@ class Order extends Component {
       }),
     ).isRequired,
     removeItem: PropTypes.func.isRequired,
+    displayInfo: PropTypes.func.isRequired,
+    displayError: PropTypes.func.isRequired,
     navigation: PropTypes.shape({
       navigate: PropTypes.func,
     }).isRequired,
@@ -45,13 +49,16 @@ class Order extends Component {
 
   cepLookup = async () => {
     const { cep } = this.state;
+    const { displayInfo, displayError } = this.props;
 
     try {
       const { data } = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
 
       this.setState({ district: data.bairro, street: data.logradouro });
+      displayInfo('Endereço encontrado', 1500);
     } catch (err) {
       console.log(err);
+      displayError('CEP não encontrado, preencha os campos');
     }
   };
 
@@ -59,7 +66,9 @@ class Order extends Component {
     const {
       notes, cep, street, district, number,
     } = this.state;
-    const { navigation, items, removeItem } = this.props;
+    const {
+      navigation, items, removeItem, displayError, displayInfo,
+    } = this.props;
 
     try {
       await api.post('orders', {
@@ -82,8 +91,10 @@ class Order extends Component {
       items.forEach(item => removeItem(item.id));
 
       navigation.navigate('Profile');
+      displayInfo('Pedido enviado com sucesso!');
     } catch (err) {
       console.log(err);
+      displayError('Preencha os campos corretamente');
     }
   };
 
@@ -110,6 +121,7 @@ class Order extends Component {
             textContentType="postalCode"
             keyboardType="numeric"
             value={cep}
+            maxLength={8}
             onChangeText={text => this.setState({ cep: text })}
             returnKeyType="next"
             onSubmitEditing={() => this.street.focus()}
@@ -166,7 +178,7 @@ const mapStateToProps = state => ({
   items: state.cart.data,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(CartActions, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ ...ToastActionsCreators, ...CartActions }, dispatch);
 
 export default connect(
   mapStateToProps,
