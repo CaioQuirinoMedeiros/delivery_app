@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable import/no-cycle */
 import { call, put, select } from 'redux-saga/effects';
 import { AsyncStorage } from 'react-native';
@@ -44,15 +45,26 @@ export function* signOut() {
   yield call([AsyncStorage, 'clear']);
 }
 
-export function* signUp({ name, email, password }) {
+export function* signUp({
+  name, email, password, password_confirmation,
+}) {
   try {
-    const response = yield call(api.post, 'users', { name, email, password });
+    const response = yield call(api.post, 'users', {
+      name,
+      email,
+      password,
+      password_confirmation,
+    });
+
+    yield call([AsyncStorage, 'setItem'], '@delivery:token', response.data.token);
 
     yield put(AuthActions.signInSuccess(response.data.token));
 
-    yield put(AuthActions.signInSuccess(response.data.token));
+    yield put(ToastActionsCreators.displayInfo('Bem-vindo!'));
   } catch (err) {
-    yield put(ToastActionsCreators.displayError('Erro ao criar cadastro'));
+    console.log(err);
+    yield put(AuthActions.signInFailure());
+    yield put(ToastActionsCreators.displayError('Não foi possível criar o cadastro'));
   }
 }
 
