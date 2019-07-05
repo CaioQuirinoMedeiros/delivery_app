@@ -19,38 +19,7 @@ export default Creators;
  * Initial state
  */
 export const INITIAL_STATE = Immutable({
-  data: [
-    {
-      id: 1,
-      price: '25',
-      product: {
-        name: 'Pizza Calabresa',
-        image: { url: 'asdsa' },
-      },
-      size: { name: 'Média' },
-      quantity: 1,
-    },
-    {
-      id: 2,
-      price: '28',
-      product: {
-        name: 'Pizza Mussarela',
-        image: { url: 'asd' },
-      },
-      size: { name: 'Grande' },
-      quantity: 3,
-    },
-    {
-      id: 3,
-      price: '30',
-      product: {
-        name: 'Pizza Bacon',
-        image: { url: 'asdas' },
-      },
-      size: { name: 'Média' },
-      quantity: 2,
-    },
-  ],
+  data: [],
 });
 
 /**
