@@ -23,7 +23,6 @@ class SignIn extends Component {
       navigate: PropTypes.func,
     }).isRequired,
     signInRequest: PropTypes.func.isRequired,
-    loading: PropTypes.bool.isRequired,
   };
 
   state = {
@@ -40,7 +39,7 @@ class SignIn extends Component {
   };
 
   render() {
-    const { navigation, loading } = this.props;
+    const { navigation } = this.props;
     const { email, password, passwordSecure } = this.state;
 
     return (
@@ -82,7 +81,7 @@ class SignIn extends Component {
         </PasswordInput>
 
         <SubmitButton onPress={this.handleSignInSubmit}>
-          <ButtonText>{loading ? 'Carregando...' : 'Entrar'}</ButtonText>
+          <ButtonText>Entrar</ButtonText>
         </SubmitButton>
 
         <LinkButton onPress={() => navigation.navigate('SignUp')}>

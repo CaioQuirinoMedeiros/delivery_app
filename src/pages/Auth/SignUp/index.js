@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import logo from '../../../assets/images/logo3x.png';
-import api from '../../../services/api';
 
 import AuthActions from '../../../store/ducks/auth';
 
@@ -25,7 +24,7 @@ class SignUp extends Component {
     navigation: PropTypes.shape({
       navigate: PropTypes.func,
     }).isRequired,
-    signInRequest: PropTypes.func.isRequired,
+    signUpRequest: PropTypes.func.isRequired,
   };
 
   state = {
@@ -38,23 +37,12 @@ class SignUp extends Component {
   };
 
   handleSignUpSubmit = async () => {
-    const { signInRequest } = this.props;
+    const { signUpRequest } = this.props;
     const {
       name, email, password, passwordConfirmation,
     } = this.state;
 
-    try {
-      await api.post('users', {
-        name,
-        email,
-        password,
-        password_confirmation: passwordConfirmation,
-      });
-
-      signInRequest(email, password);
-    } catch (err) {
-      console.log(err);
-    }
+    signUpRequest(name, email, password, passwordConfirmation);
   };
 
   render() {
