@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { ActivityIndicator, StatusBar } from 'react-native';
+import { ActivityIndicator, Text, StatusBar } from 'react-native';
 
 import { Background, Gradient } from './styles';
 import headerBackground from './assets/images/header-background.png';
@@ -22,7 +22,14 @@ class App extends Component {
   render() {
     const { auth } = this.props;
 
-    if (!auth.authChecked) return <ActivityIndicator />;
+    if (!auth.authChecked) {
+      return (
+        <>
+          <Text>Carregando...</Text>
+          <ActivityIndicator />
+        </>
+      );
+    }
 
     const Routes = createNavigator(auth.signedIn);
     return (
