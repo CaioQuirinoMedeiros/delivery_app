@@ -51,19 +51,16 @@ class Products extends Component {
     navigation.navigate('Sizes', { productId: id });
   };
 
-  renderProduct = ({ item }) => {
-    console.log(item);
-    return (
-      <Product onPress={() => this.handleProductSelect(item.id)}>
-        <ProductImage
-          source={{
-            uri: `${REACT_APP_API_URL}/uploads/${item.image ? item.image.path : 'no-image.jpg'}`,
-          }}
-        />
-        <ProductTitle>{item.name}</ProductTitle>
-      </Product>
-    );
-  };
+  renderProduct = ({ item }) => (
+    <Product onPress={() => this.handleProductSelect(item.id)}>
+      <ProductImage
+        source={{
+          uri: `${REACT_APP_API_URL}/uploads/${item.image ? item.image.path : 'no-image.jpg'}`,
+        }}
+      />
+      <ProductTitle>{item.name}</ProductTitle>
+    </Product>
+  );
 
   render() {
     const { products, refreshing } = this.state;
