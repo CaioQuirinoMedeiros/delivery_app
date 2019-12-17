@@ -9,8 +9,7 @@ const { Types, Creators } = createActions({
   signInSuccess: ['token'],
   signInFailure: null,
   signOut: null,
-  signUpRequest: ['name', 'email', 'password', 'passwordConfirmation'],
-  initCheckSuccess: null
+  signUpRequest: ['name', 'email', 'password', 'passwordConfirmation']
 })
 
 export const AuthTypes = Types
@@ -20,7 +19,7 @@ export default Creators
  * Initial state
  */
 export const INITIAL_STATE = Immutable({
-  authChecked: false,
+  fetching: false,
   signedIn: false,
   token: null,
   roles: []
@@ -29,17 +28,22 @@ export const INITIAL_STATE = Immutable({
 /**
  * Reducers
  */
-const success = (state, { token }) => state.merge({ signedIn: true, token })
+const request = state => state.merge({ fetching: true })
+
+const success = (state, { token }) =>
+  state.merge({ signedIn: true, token, fetching: false })
+
+const failure = state => state.merge({ fetching: false })
 
 const logout = state => state.merge({ signedIn: false, token: null })
-
-const checkSuccess = state => state.merge({ authChecked: true })
 
 /**
  * Reducers to types
  */
 export const reducer = createReducer(INITIAL_STATE, {
+  [Types.SIGN_IN_REQUEST]: request,
+  [Types.SIGN_UP_REQUEST]: request,
   [Types.SIGN_IN_SUCCESS]: success,
-  [Types.SIGN_OUT]: logout,
-  [Types.INIT_CHECK_SUCCESS]: checkSuccess
+  [Types.SIGN_IN_FAILURE]: failure,
+  [Types.SIGN_OUT]: logout
 })

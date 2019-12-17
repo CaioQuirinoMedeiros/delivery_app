@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
-import logo from '../../../assets/images/logo3x.png'
+import logo from '../../../assets/images/logo.png'
 
 import AuthActions from '../../../store/ducks/auth'
 
@@ -20,6 +20,8 @@ function SignIn ({ navigation }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordVisible, setPasswordVisible] = useState(false)
+
+  const fetching = useSelector(({ auth }) => auth.fetching)
 
   const passwordRef = useRef()
 
@@ -47,7 +49,7 @@ function SignIn ({ navigation }) {
       <PasswordInput>
         <Input
           password
-          placeholder='Senha secreta'
+          placeholder='Senha'
           value={password}
           onChangeText={text => setPassword(text)}
           secureTextEntry={!passwordVisible}
@@ -66,7 +68,7 @@ function SignIn ({ navigation }) {
       </PasswordInput>
 
       <SubmitButton onPress={handleSignInSubmit}>
-        <ButtonText>Entrar</ButtonText>
+        <ButtonText>{fetching ? 'Carregando...' : 'Entrar'}</ButtonText>
       </SubmitButton>
 
       <LinkButton onPress={() => navigation.navigate('SignUp')}>

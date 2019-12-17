@@ -1,8 +1,8 @@
 /* eslint-disable max-len */
 import React, { useState, useRef } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
-import logo from '../../../assets/images/logo3x.png'
+import logo from '../../../assets/images/logo.png'
 
 import AuthActions from '../../../store/ducks/auth'
 
@@ -23,6 +23,8 @@ function SignUp ({ navigation }) {
   const [password, setPassword] = useState('')
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
   const [passwordVisible, setPasswordVisible] = useState(false)
+
+  const fetching = useSelector(({ auth }) => auth.fetching)
 
   const emailRef = useRef()
   const passwordRef = useRef()
@@ -108,7 +110,7 @@ function SignUp ({ navigation }) {
       </PasswordInput>
 
       <SubmitButton onPress={handleSignUpSubmit}>
-        <ButtonText>Criar conta</ButtonText>
+        <ButtonText>{fetching ? 'Carregando...' : 'Criar conta'}</ButtonText>
       </SubmitButton>
 
       <LinkButton onPress={() => navigation.navigate('SignIn')}>
