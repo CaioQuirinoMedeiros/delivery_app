@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import { distanceInWordsToNow, format } from 'date-fns';
-import pt from 'date-fns/locale/pt';
+import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { parseISO, formatDistanceToNow, format } from 'date-fns'
+import pt from 'date-fns/locale/pt'
+import { ToastActionsCreators } from 'react-native-redux-toast'
 
-import api from '../../services/api';
-import { convertToBRL } from '../../services/currency';
+import api from '../../services/api'
+import { convertToBRL } from '../../services/currency'
+import AuthActions from '../../store/ducks/auth'
 
-import BackButton from '../../components/BackButton';
-import OrderModal from '../../components/OrderModal';
+import BackButton from '../../components/BackButton'
+import OrderModal from '../../components/OrderModal'
 
 import {
   Container,
@@ -23,127 +23,113 @@ import {
   Footer,
   LogoutButton,
   LogoutButtonText,
-  EmptyMessage,
-} from './styles';
+  EmptyMessage
+} from './styles'
 
-import AuthActions from '../../store/ducks/auth';
+function Profile () {
+  const [orders, setOrders] = useState([])
+  const [refreshing, setRefreshing] = useState(false)
+  const [modalOrder, setModalOrder] = useState(null)
 
-class Profile extends Component {
-  static navigationOptions = ({ navigation }) => ({
-    title: 'Meus pedidos',
-    headerLeft: ({ tintColor }) => (
-      <BackButton tintColor={tintColor} onPress={() => navigation.navigate('Main')} />
-    ),
-  });
+  const dispatch = useDispatch()
 
-  static propTypes = {
-    signOut: PropTypes.func.isRequired,
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func,
-    }).isRequired,
-  };
+  useEffect(() => {
+    loadOrders()
+  }, [])
 
-  state = {
-    orders: [],
-    refreshing: false,
-    modalOrder: null,
-  };
-
-  componentDidMount() {
-    this.setState({ modalOrder: null });
-    this.loadOrders();
-  }
-
-  loadOrders = async () => {
+  async function loadOrders () {
     try {
-      this.setState({ refreshing: true });
-      const { data } = await api.get('orders');
+      setRefreshing(true)
 
-      this.setState({
-        orders: data.map(order => ({
+      const { data } = await api.get('orders')
+
+      setOrders(
+        data.map(order => ({
           ...order,
-          elapsedTime: distanceInWordsToNow(order.created_at, { locale: pt, addSuffix: true }),
-          total: convertToBRL(Number(order.total)),
-        })),
-      });
+          elapsedTime: formatDistanceToNow(parseISO(order.created_at), {
+            locale: pt,
+            addSuffix: true
+          }),
+          total: convertToBRL(Number(order.total))
+        }))
+      )
     } catch (err) {
-      console.log(err);
+      dispatch(ToastActionsCreators.displayError('Erro ao carregar pedidos'))
     } finally {
-      this.setState({ refreshing: false });
+      setRefreshing(false)
     }
-  };
-
-  loadOrder = async (id) => {
-    try {
-      const { data } = await api.get(`orders/${id}`);
-
-      this.setState({
-        modalOrder: {
-          ...data,
-          total: convertToBRL(Number(data.total)),
-          created_at: format(data.created_at, 'MM/DD/YYYY [às] HH:mm', { locale: pt }),
-        },
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  closeOrder = () => {
-    this.setState({ modalOrder: null });
-  };
-
-  signOut = () => {
-    const { signOut } = this.props;
-
-    signOut();
-  };
-
-  renderOrderItem = ({ item, index }) => (
-    <OrderItem onPress={() => this.loadOrder(item.id)}>
-      <OrderInfo>
-        <OrderNumber>{`Pedido #${index + 1}`}</OrderNumber>
-        <OrderElapsedTime>{item.elapsedTime}</OrderElapsedTime>
-        <OrderTotal>{item.total}</OrderTotal>
-      </OrderInfo>
-      <OrderStatus status={item.status}>{item.status}</OrderStatus>
-    </OrderItem>
-  );
-
-  render() {
-    const { orders, refreshing, modalOrder } = this.state;
-
-    return (
-      <Container>
-        {modalOrder ? <OrderModal order={modalOrder} closeOrder={this.closeOrder} /> : null}
-
-        <OrdersList
-          data={orders}
-          keyExtractor={item => String(item.id)}
-          renderItem={this.renderOrderItem}
-          onRefresh={this.loadOrders}
-          refreshing={refreshing}
-          ListEmptyComponent={
-            !refreshing && (
-              <OrderItem>
-                <EmptyMessage>Nenhum histórico de pedido</EmptyMessage>
-              </OrderItem>
-            )
-          }
-        />
-        <Footer>
-          <LogoutButton onPress={this.signOut}>
-            <LogoutButtonText>SAIR</LogoutButtonText>
-          </LogoutButton>
-        </Footer>
-      </Container>
-    );
   }
+
+  async function loadOrder (orderId) {
+    try {
+      const { data } = await api.get(`orders/${orderId}`)
+
+      setModalOrder({
+        ...data,
+        total: convertToBRL(Number(data.total)),
+        created_at: format(parseISO(data.created_at), 'Pp', {
+          locale: pt
+        })
+      })
+    } catch (err) {
+      dispatch(ToastActionsCreators.displayError('Erro ao exibir pedido'))
+    }
+  }
+
+  function closeOrder () {
+    setModalOrder(null)
+  }
+
+  function signOut () {
+    dispatch(AuthActions.signOut())
+  }
+
+  function renderOrderItem ({ item, index }) {
+    return (
+      <OrderItem onPress={() => loadOrder(item.id)}>
+        <OrderInfo>
+          <OrderNumber>{`Pedido #${index + 1}`}</OrderNumber>
+          <OrderElapsedTime>{item.elapsedTime}</OrderElapsedTime>
+          <OrderTotal>{item.total}</OrderTotal>
+        </OrderInfo>
+        <OrderStatus status={item.status}>{item.status}</OrderStatus>
+      </OrderItem>
+    )
+  }
+
+  return (
+    <Container>
+      {modalOrder && <OrderModal order={modalOrder} closeOrder={closeOrder} />}
+
+      <OrdersList
+        data={orders}
+        keyExtractor={item => String(item.id)}
+        renderItem={renderOrderItem}
+        onRefresh={loadOrders}
+        refreshing={refreshing}
+        ListEmptyComponent={
+          <OrderItem>
+            <EmptyMessage>Nenhum histórico de pedido</EmptyMessage>
+          </OrderItem>
+        }
+      />
+      <Footer>
+        <LogoutButton onPress={signOut}>
+          <LogoutButtonText>SAIR</LogoutButtonText>
+        </LogoutButton>
+      </Footer>
+    </Container>
+  )
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators(AuthActions, dispatch);
+Profile.navigationOptions = ({ navigation }) => ({
+  title: 'Meus pedidos',
+  headerLeft: ({ tintColor }) => (
+    <BackButton
+      tintColor={tintColor}
+      onPress={() => navigation.navigate('Main')}
+    />
+  )
+})
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(Profile);
+export default Profile

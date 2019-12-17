@@ -1,53 +1,30 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { ActivityIndicator, Text, StatusBar } from 'react-native';
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { StatusBar } from 'react-native'
 
-import { Background, Gradient } from './styles';
-import headerBackground from './assets/images/header-background.png';
-import fundo from './assets/images/fundo.jpg';
+import { Wrapper, Background, Gradient } from './styles'
+import headerBackground from './assets/images/header-background.png'
+import fundo from './assets/images/fundo.jpg'
 
-import createNavigator from './routes';
+import createNavigator from './routes'
 
-class App extends Component {
-  state = {};
+function App () {
+  const auth = useSelector(({ auth }) => auth)
 
-  static propTypes = {
-    auth: PropTypes.shape({
-      authChecked: PropTypes.bool,
-      signedIn: PropTypes.bool,
-    }).isRequired,
-  };
+  const Routes = createNavigator(auth.signedIn)
 
-  render() {
-    const { auth } = this.props;
-
-    if (!auth.authChecked) {
-      return (
-        <>
-          <Text>Carregando...</Text>
-          <ActivityIndicator />
-        </>
-      );
-    }
-
-    const Routes = createNavigator(auth.signedIn);
-    return (
-      <>
-        <StatusBar backgroundColor="#0B2031" barStyle="light-content" hidden={!auth.signedIn} />
-        <Background source={auth.signedIn ? headerBackground : fundo} />
-        {!auth.signedIn && <Gradient />}
-        <Routes />
-      </>
-    );
-  }
+  return (
+    <Wrapper>
+      <StatusBar
+        backgroundColor='#0B2031'
+        barStyle='light-content'
+        hidden={!auth.signedIn}
+      />
+      <Background source={auth.signedIn ? headerBackground : fundo} />
+      {!auth.signedIn && <Gradient />}
+      <Routes />
+    </Wrapper>
+  )
 }
 
-const mapStateToProps = state => ({
-  auth: state.auth,
-});
-
-export default connect(
-  mapStateToProps,
-  null,
-)(App);
+export default App

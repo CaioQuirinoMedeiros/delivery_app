@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import { convertToBRL } from '../../services/currency';
+import {convertToBRL} from '../../services/currency';
 
 import {
   ModalContainer,
@@ -22,11 +22,14 @@ import {
   Background,
 } from './styles';
 
-const OrderModal = ({ order, closeOrder }) => {
+const OrderModal = ({order, closeOrder}) => {
   const items = order.items.map(item => ({
     ...item,
     subtotal: convertToBRL(Number(item.subtotal)),
-    product_size: { ...item.product_size, price: convertToBRL(Number(item.product_size.price)) },
+    product_size: {
+      ...item.product_size,
+      price: convertToBRL(Number(item.product_size.price)),
+    },
   }));
 
   return (
@@ -58,14 +61,19 @@ const OrderModal = ({ order, closeOrder }) => {
           showsVerticalScrollIndicator={false}
           data={items}
           keyExtractor={item => String(item.id)}
-          renderItem={({ item }) => (
+          renderItem={({item}) => (
             <OrderItem>
               <ProductImage
-                source={{ uri: 'https://optepizza.com.br/wp-content/uploads/opte-pizza.png' }}
+                source={{
+                  uri:
+                    'https://optepizza.com.br/wp-content/uploads/opte-pizza.png',
+                }}
               />
               <OrderInfo>
                 <ProductTitle>{item.product_size.product.name}</ProductTitle>
-                <ProductDetail>{`Price: ${item.product_size.price}`}</ProductDetail>
+                <ProductDetail>{`Price: ${
+                  item.product_size.price
+                }`}</ProductDetail>
                 <ProductDetail>{`Quantity: ${item.quantity}`}</ProductDetail>
               </OrderInfo>
               <ItemSubtotal>{item.subtotal}</ItemSubtotal>

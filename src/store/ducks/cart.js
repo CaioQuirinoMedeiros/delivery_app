@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable max-len */
 import { createReducer, createActions } from 'reduxsauce';
 import Immutable from 'seamless-immutable';
 
@@ -8,8 +6,10 @@ import Immutable from 'seamless-immutable';
  */
 const { Types, Creators } = createActions({
   addItem: ['item'],
+  increaseItemQuantity: ['id'],
+  decreaseItemQuantity: ['id'],
   removeItem: ['id'],
-  attItemQuantity: ['id', 'quantity'],
+  clearItems: null,
 });
 
 export const CartTypes = Types;
@@ -25,24 +25,39 @@ export const INITIAL_STATE = Immutable({
 /**
  * Reducers
  */
-const addItem = (state, { item }) => state.merge({ data: [...state.data, item] });
+const addItem = (state, { item }) =>
+  state.merge({ data: [...state.data, { ...item, quantity: 1 }] });
 
-const removeItem = (state, { id }) => state.merge({ data: state.data.filter(item => item.id !== id) });
+const increaseQuantity = (state, { id }) =>
+  state.merge({
+    data: state.data.map(item =>
+      item.id === id && item.quantity < 31
+        ? { ...item, quantity: item.quantity + 1 }
+        : item
+    ),
+  });
 
-const attItemQuantity = (state, { id, quantity }) => state.merge({
-  data: state.data.map((item) => {
-    if (item.id === id && quantity > 0 && quantity < 31) {
-      return { ...item, quantity };
-    }
-    return item;
-  }),
-});
+const decreaseQuantity = (state, { id }) =>
+  state.merge({
+    data: state.data.map(item =>
+      item.id === id && item.quantity > 1
+        ? { ...item, quantity: item.quantity - 1 }
+        : item
+    ),
+  });
+
+const removeItem = (state, { id }) =>
+  state.merge({ data: state.data.filter(item => item.id !== id) });
+
+const clear = state => INITIAL_STATE;
 
 /**
  * Reducers to types
  */
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.ADD_ITEM]: addItem,
+  [Types.INCREASE_ITEM_QUANTITY]: increaseQuantity,
+  [Types.DECREASE_ITEM_QUANTITY]: decreaseQuantity,
   [Types.REMOVE_ITEM]: removeItem,
-  [Types.ATT_ITEM_QUANTITY]: attItemQuantity,
+  [Types.CLEAR_ITEMS]: clear,
 });

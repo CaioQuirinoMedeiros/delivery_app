@@ -1,13 +1,18 @@
-import styled from 'styled-components';
-import LinearGradient from 'react-native-linear-gradient';
+import styled from 'styled-components'
+import LinearGradient from 'react-native-linear-gradient'
+
+export const Wrapper = styled.View`
+  flex: 1;
+  background: #f7f7f7;
+`
 
 export const Background = styled.Image`
   width: 100%;
   position: absolute;
-`;
+`
 
 export const Gradient = styled(LinearGradient).attrs({
-  colors: ['rgba(0,0,0,0.5)', 'rgba(0,0,0,0.80)', 'rgba(0,0,0,0.9)'],
+  colors: ['rgba(0,0,0,0.5)', 'rgba(0,0,0,0.80)', 'rgba(0,0,0,0.9)']
 })`
   position: absolute;
   top: 0;
@@ -17,4 +22,4 @@ export const Gradient = styled(LinearGradient).attrs({
   flex: 1;
   align-items: center;
   justify-content: center;
-`;
+`

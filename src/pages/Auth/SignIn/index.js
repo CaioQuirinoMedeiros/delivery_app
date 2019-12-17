@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import PropTypes from 'prop-types';
-import logo from '../../../assets/images/logo3x.png';
+import React, { useState, useRef } from 'react'
+import { useDispatch } from 'react-redux'
 
-import AuthActions from '../../../store/ducks/auth';
+import logo from '../../../assets/images/logo3x.png'
+
+import AuthActions from '../../../store/ducks/auth'
 
 import {
   Container,
@@ -14,91 +13,67 @@ import {
   SubmitButton,
   ButtonText,
   LinkButton,
-  Logo,
-} from '../styles';
+  Logo
+} from '../styles'
 
-class SignIn extends Component {
-  static propTypes = {
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func,
-    }).isRequired,
-    signInRequest: PropTypes.func.isRequired,
-  };
+function SignIn ({ navigation }) {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [passwordVisible, setPasswordVisible] = useState(false)
 
-  state = {
-    email: '',
-    password: '',
-    passwordSecure: true,
-  };
+  const passwordRef = useRef()
 
-  handleSignInSubmit = () => {
-    const { email, password } = this.state;
-    const { signInRequest } = this.props;
+  const dispatch = useDispatch()
 
-    signInRequest(email, password);
-  };
-
-  render() {
-    const { navigation } = this.props;
-    const { email, password, passwordSecure } = this.state;
-
-    return (
-      <Container>
-        <Logo source={logo} />
-
-        <Input
-          placeholder="Seu e-mail"
-          value={email}
-          onChangeText={text => this.setState({ email: text })}
-          keyboardType="email-address"
-          autoCapitalize="none"
-          autoCorrect={false}
-          returnKeyType="next"
-          onSubmitEditing={() => this.passwordInput.focus()}
-        />
-
-        <PasswordInput>
-          <Input
-            password
-            placeholder="Senha secreta"
-            value={password}
-            onChangeText={text => this.setState({ password: text })}
-            secureTextEntry={passwordSecure}
-            autoCapitalize="none"
-            autoCorrect={false}
-            returnKeyType="send"
-            onSubmitEditing={this.handleSignInSubmit}
-            ref={(el) => {
-              this.passwordInput = el;
-            }}
-          />
-          <EyeIcon
-            name={passwordSecure ? 'visibility-off' : 'visibility'}
-            size={24}
-            color="#222"
-            onPress={() => this.setState({ passwordSecure: !passwordSecure })}
-          />
-        </PasswordInput>
-
-        <SubmitButton onPress={this.handleSignInSubmit}>
-          <ButtonText>Entrar</ButtonText>
-        </SubmitButton>
-
-        <LinkButton onPress={() => navigation.navigate('SignUp')}>
-          <ButtonText>Criar conta gratuita</ButtonText>
-        </LinkButton>
-      </Container>
-    );
+  function handleSignInSubmit () {
+    dispatch(AuthActions.signInRequest(email, password))
   }
+
+  return (
+    <Container>
+      <Logo source={logo} />
+
+      <Input
+        placeholder='Seu e-mail'
+        value={email}
+        onChangeText={text => setEmail(text)}
+        keyboardType='email-address'
+        autoCapitalize='none'
+        returnKeyType='next'
+        blurOnSubmit={false}
+        onSubmitEditing={() => passwordRef.current.focus()}
+      />
+
+      <PasswordInput>
+        <Input
+          password
+          placeholder='Senha secreta'
+          value={password}
+          onChangeText={text => setPassword(text)}
+          secureTextEntry={!passwordVisible}
+          autoCapitalize='none'
+          autoCorrect={false}
+          returnKeyType='send'
+          onSubmitEditing={handleSignInSubmit}
+          ref={passwordRef}
+        />
+        <EyeIcon
+          name={passwordVisible ? 'visibility' : 'visibility-off'}
+          size={24}
+          color='#222'
+          onPress={() => setPasswordVisible(!passwordVisible)}
+        />
+      </PasswordInput>
+
+      <SubmitButton onPress={handleSignInSubmit}>
+        <ButtonText>Entrar</ButtonText>
+      </SubmitButton>
+
+      <LinkButton onPress={() => navigation.navigate('SignUp')}>
+        <ButtonText>Criar conta gratuita</ButtonText>
+      </LinkButton>
+    </Container>
+  )
 }
 
-const masStateToProps = state => ({
-  loading: state.auth.loading,
-});
-
-const mapDispatchToProps = dispatch => bindActionCreators(AuthActions, dispatch);
-
-export default connect(
-  masStateToProps,
-  mapDispatchToProps,
-)(SignIn);
+export default SignIn
