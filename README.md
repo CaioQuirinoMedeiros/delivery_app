@@ -10,7 +10,7 @@ This project is the final challenge of [Rocketseat bootcamp course](https://rock
 
 This app integrates with an [API](https://github.com/CaioQuirinoMedeiros/delivery_api) built with NodeJS and it's intended for customers. There's a [web application](https://github.com/CaioQuirinoMedeiros/delivery_web) designed to manage the application
 
-## :arrow_up: Installing
+## :arrow_down: Installing
 
 **Cloning the repo**
 
