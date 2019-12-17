@@ -1,21 +1,26 @@
-import React from 'react';
-import {Provider} from 'react-redux';
-import {Toast} from 'react-native-redux-toast';
+import React from 'react'
+import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
+import { Toast } from 'react-native-redux-toast'
 
-import App from './App';
-import store from './store';
+import './config/reactotron-config'
+import { store, persistor } from './store'
 
-function Root() {
+import App from './App'
+
+function Root () {
   return (
     <Provider store={store}>
-      <>
-        <App />
-        <Toast
-          messageStyle={{color: '#fff'}}
-          containerStyle={{backgroundColor: '#548a56'}}
-        />
-      </>
+      <PersistGate persistor={persistor}>
+        <>
+          <App />
+          <Toast
+            messageStyle={{ color: '#fff' }}
+            containerStyle={{ backgroundColor: '#548a56' }}
+          />
+        </>
+      </PersistGate>
     </Provider>
-  );
+  )
 }
-export default Root;
+export default Root

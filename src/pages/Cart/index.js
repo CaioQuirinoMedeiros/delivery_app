@@ -75,8 +75,9 @@ function Cart({navigation}) {
         />
         <OrderInfo>
           <ProductTitle numberOfLines={1}>{item.product.name}</ProductTitle>
-          <ProductSize
-            numberOfLines={1}>{`Tamanho: ${item.size.name}`}</ProductSize>
+          <ProductSize numberOfLines={1}>{`Tamanho: ${
+            item.size.name
+          }`}</ProductSize>
           <ProductPrice>{item.subtotal}</ProductPrice>
         </OrderInfo>
         <OrderQuantity>

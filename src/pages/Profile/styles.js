@@ -7,7 +7,7 @@ export const Container = styled.View`
 `;
 
 export const OrdersList = styled.FlatList.attrs({
-  contentContainerStyle: { paddingVertical: 10, alignItems: 'center' },
+  contentContainerStyle: {paddingVertical: 10, alignItems: 'center'},
 })``;
 
 export const OrderItem = styled.TouchableOpacity.attrs({
@@ -54,7 +54,12 @@ export const OrderTotal = styled.Text`
 export const OrderStatus = styled.Text`
   align-self: flex-end;
   font-weight: bold;
-  color: ${props => (props.status === 'pendente' ? 'orange' : props.status === 'cancelado' ? 'red' : 'green')};
+  color: ${props =>
+    props.status === 'pendente'
+      ? 'orange'
+      : props.status === 'cancelado'
+      ? 'red'
+      : 'green'};
 `;
 
 export const Footer = styled.View`

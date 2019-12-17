@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 
 export const Container = styled.KeyboardAvoidingView.attrs({
   behavior: Platform.OS === 'iOS' ? 'padding' : '',

@@ -6,8 +6,8 @@ export const Container = styled.View`
 `;
 
 export const ProductsList = styled.FlatList.attrs({
-  contentContainerStyle: { paddingVertical: 10 },
-  columnWrapperStyle: { justifyContent: 'space-evenly' },
+  contentContainerStyle: {paddingVertical: 10},
+  columnWrapperStyle: {justifyContent: 'space-evenly'},
 })``;
 
 export const Product = styled.TouchableOpacity.attrs({

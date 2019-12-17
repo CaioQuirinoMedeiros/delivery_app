@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import {
-  Container, Button, Title, CartItems,
-} from './styles';
+import {Container, Button, Title, CartItems} from './styles';
 
-const MainHeader = ({ navigation, height, itemsLength }) => (
+const MainHeader = ({navigation, height, itemsLength}) => (
   <Container headerHeight={height}>
     <Button onPress={() => navigation.navigate('Profile')}>
       <Icon name="face" size={24} color="#fff" />

@@ -1,9 +1,9 @@
-import React, {useState, useRef} from 'react';
-import {useDispatch} from 'react-redux';
+import React, { useState, useRef } from 'react'
+import { useDispatch } from 'react-redux'
 
-import logo from '../../../assets/images/logo3x.png';
+import logo from '../../../assets/images/logo3x.png'
 
-import AuthActions from '../../../store/ducks/auth';
+import AuthActions from '../../../store/ducks/auth'
 
 import {
   Container,
@@ -13,34 +13,33 @@ import {
   SubmitButton,
   ButtonText,
   LinkButton,
-  Logo,
-} from '../styles';
+  Logo
+} from '../styles'
 
-function SignIn({ navigation }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordVisible, setPasswordVisible] = useState(false);
+function SignIn ({ navigation }) {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [passwordVisible, setPasswordVisible] = useState(false)
 
   const passwordRef = useRef()
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  handleSignInSubmit = () => {
-    dispatch(AuthActions.signInRequest(email, password));
-  };
+  function handleSignInSubmit () {
+    dispatch(AuthActions.signInRequest(email, password))
+  }
 
   return (
     <Container>
       <Logo source={logo} />
 
       <Input
-        placeholder="Seu e-mail"
+        placeholder='Seu e-mail'
         value={email}
         onChangeText={text => setEmail(text)}
-        keyboardType="email-address"
-        autoCapitalize="none"
-        autoCorrect={false}
-        returnKeyType="next"
+        keyboardType='email-address'
+        autoCapitalize='none'
+        returnKeyType='next'
         blurOnSubmit={false}
         onSubmitEditing={() => passwordRef.current.focus()}
       />
@@ -48,20 +47,20 @@ function SignIn({ navigation }) {
       <PasswordInput>
         <Input
           password
-          placeholder="Senha secreta"
+          placeholder='Senha secreta'
           value={password}
           onChangeText={text => setPassword(text)}
           secureTextEntry={!passwordVisible}
-          autoCapitalize="none"
+          autoCapitalize='none'
           autoCorrect={false}
-          returnKeyType="send"
+          returnKeyType='send'
           onSubmitEditing={handleSignInSubmit}
           ref={passwordRef}
         />
         <EyeIcon
           name={passwordVisible ? 'visibility' : 'visibility-off'}
           size={24}
-          color="#222"
+          color='#222'
           onPress={() => setPasswordVisible(!passwordVisible)}
         />
       </PasswordInput>
@@ -74,7 +73,7 @@ function SignIn({ navigation }) {
         <ButtonText>Criar conta gratuita</ButtonText>
       </LinkButton>
     </Container>
-  );
+  )
 }
 
-export default SignIn;
+export default SignIn

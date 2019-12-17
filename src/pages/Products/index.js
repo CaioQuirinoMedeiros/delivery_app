@@ -1,64 +1,64 @@
-import React, {useState, useEffect} from 'react';
-import {useDispatch} from 'react-redux';
-import {REACT_APP_API_URL} from 'react-native-dotenv';
-import {ToastActionsCreators} from 'react-native-redux-toast';
+import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { REACT_APP_API_URL } from 'react-native-dotenv'
+import { ToastActionsCreators } from 'react-native-redux-toast'
 
-import api from '../../services/api';
+import api from '../../services/api'
 
 import {
   Container,
   ProductsList,
   Product,
   ProductImage,
-  ProductTitle,
-} from './styles';
+  ProductTitle
+} from './styles'
 
-function Products({navigation}) {
-  const [products, setProducts] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
+function Products ({ navigation }) {
+  const [products, setProducts] = useState([])
+  const [refreshing, setRefreshing] = useState(false)
 
-  const categoryId = navigation.getParam('categoryId');
+  const categoryId = navigation.getParam('categoryId')
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    loadProducts();
-  }, []);
+    loadProducts()
+  }, [])
 
-  async function loadProducts() {
+  async function loadProducts () {
     try {
-      setRefreshing(true);
+      setRefreshing(true)
 
-      const {data} = await api.get('products', {
-        params: {category: categoryId},
-      });
+      const { data } = await api.get('products', {
+        params: { category: categoryId }
+      })
 
-      setProducts(data);
+      setProducts(data)
     } catch (err) {
-      dispatch(ToastActionsCreators.displayError('Erro ao buscar categorias'));
+      dispatch(ToastActionsCreators.displayError('Erro ao buscar categorias'))
     } finally {
-      setRefreshing(false);
+      setRefreshing(false)
     }
   }
 
   function handleProductSelect (productId) {
-    navigation.navigate('Sizes', {productId});
-  };
+    navigation.navigate('Sizes', { productId })
+  }
 
-  function renderProduct ({item}) {
+  function renderProduct ({ item }) {
     return (
-    <Product onPress={() => handleProductSelect(item.id)}>
-      <ProductImage
-        source={{
-          uri: `${REACT_APP_API_URL}/uploads/${
-            item.image ? item.image.path : 'no-image.jpg'
-          }`,
-        }}
-      />
-      <ProductTitle>{item.name}</ProductTitle>
-    </Product>
-  );
-      }
+      <Product onPress={() => handleProductSelect(item.id)}>
+        <ProductImage
+          source={{
+            uri: `${REACT_APP_API_URL}/uploads/${
+              item.image ? item.image.path : 'no-image.jpg'
+            }`
+          }}
+        />
+        <ProductTitle>{item.name}</ProductTitle>
+      </Product>
+    )
+  }
 
   return (
     <Container>
@@ -72,11 +72,11 @@ function Products({navigation}) {
         showsVerticalScrollIndicator={false}
       />
     </Container>
-  );
+  )
 }
 
 Products.navigationOptions = {
-  title: 'Selecione um tipo',
-};
+  title: 'Selecione um tipo'
+}
 
-export default Products;
+export default Products

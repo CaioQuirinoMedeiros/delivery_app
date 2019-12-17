@@ -1,15 +1,15 @@
-import React, {useState, useEffect} from 'react';
-import {useDispatch} from 'react-redux';
-import {parseISO, formatDistanceToNow, format} from 'date-fns';
-import pt from 'date-fns/locale/pt';
-import {ToastActionsCreators} from 'react-native-redux-toast';
+import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { parseISO, formatDistanceToNow, format } from 'date-fns'
+import pt from 'date-fns/locale/pt'
+import { ToastActionsCreators } from 'react-native-redux-toast'
 
-import api from '../../services/api';
-import {convertToBRL} from '../../services/currency';
-import AuthActions from '../../store/ducks/auth';
+import api from '../../services/api'
+import { convertToBRL } from '../../services/currency'
+import AuthActions from '../../store/ducks/auth'
 
-import BackButton from '../../components/BackButton';
-import OrderModal from '../../components/OrderModal';
+import BackButton from '../../components/BackButton'
+import OrderModal from '../../components/OrderModal'
 
 import {
   Container,
@@ -23,68 +23,68 @@ import {
   Footer,
   LogoutButton,
   LogoutButtonText,
-  EmptyMessage,
-} from './styles';
+  EmptyMessage
+} from './styles'
 
-function Profile() {
-  const [orders, setOrders] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
-  const [modalOrder, setModalOrder] = useState(null);
+function Profile () {
+  const [orders, setOrders] = useState([])
+  const [refreshing, setRefreshing] = useState(false)
+  const [modalOrder, setModalOrder] = useState(null)
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    loadOrders();
-  }, []);
+    loadOrders()
+  }, [])
 
-  async function loadOrders() {
+  async function loadOrders () {
     try {
-      setRefreshing(true);
+      setRefreshing(true)
 
-      const {data} = await api.get('orders');
+      const { data } = await api.get('orders')
 
       setOrders(
         data.map(order => ({
           ...order,
           elapsedTime: formatDistanceToNow(parseISO(order.created_at), {
             locale: pt,
-            addSuffix: true,
+            addSuffix: true
           }),
-          total: convertToBRL(Number(order.total)),
-        })),
-      );
+          total: convertToBRL(Number(order.total))
+        }))
+      )
     } catch (err) {
-      dispatch(ToastActionsCreators.displayError('Erro ao carregar pedidos'));
+      dispatch(ToastActionsCreators.displayError('Erro ao carregar pedidos'))
     } finally {
-      setRefreshing(false);
+      setRefreshing(false)
     }
   }
 
-  async function loadOrder(orderId) {
+  async function loadOrder (orderId) {
     try {
-      const {data} = await api.get(`orders/${orderId}`);
+      const { data } = await api.get(`orders/${orderId}`)
 
       setModalOrder({
         ...data,
         total: convertToBRL(Number(data.total)),
-        created_at: format(parseISO(data.created_at), "MM/DD/YYYY 'às' HH:mm", {
-          locale: pt,
-        }),
-      });
+        created_at: format(parseISO(data.created_at), 'Pp', {
+          locale: pt
+        })
+      })
     } catch (err) {
-      dispatch(ToastActionsCreators.displayError('Erro ao exibir pedido'));
+      dispatch(ToastActionsCreators.displayError('Erro ao exibir pedido'))
     }
   }
 
-  function closeOrder() {
-    setModalOrder(null);
+  function closeOrder () {
+    setModalOrder(null)
   }
 
-  function signOut() {
-    dispatch(AuthActions.signOut());
+  function signOut () {
+    dispatch(AuthActions.signOut())
   }
 
-  function renderOrderItem({item, index}) {
+  function renderOrderItem ({ item, index }) {
     return (
       <OrderItem onPress={() => loadOrder(item.id)}>
         <OrderInfo>
@@ -94,7 +94,7 @@ function Profile() {
         </OrderInfo>
         <OrderStatus status={item.status}>{item.status}</OrderStatus>
       </OrderItem>
-    );
+    )
   }
 
   return (
@@ -108,11 +108,9 @@ function Profile() {
         onRefresh={loadOrders}
         refreshing={refreshing}
         ListEmptyComponent={
-          !refreshing && (
-            <OrderItem>
-              <EmptyMessage>Nenhum histórico de pedido</EmptyMessage>
-            </OrderItem>
-          )
+          <OrderItem>
+            <EmptyMessage>Nenhum histórico de pedido</EmptyMessage>
+          </OrderItem>
         }
       />
       <Footer>
@@ -121,17 +119,17 @@ function Profile() {
         </LogoutButton>
       </Footer>
     </Container>
-  );
+  )
 }
 
-Profile.navigationOptions = ({navigation}) => ({
+Profile.navigationOptions = ({ navigation }) => ({
   title: 'Meus pedidos',
-  headerLeft: ({tintColor}) => (
+  headerLeft: ({ tintColor }) => (
     <BackButton
       tintColor={tintColor}
       onPress={() => navigation.navigate('Main')}
     />
-  ),
-});
+  )
+})
 
-export default Profile;
+export default Profile

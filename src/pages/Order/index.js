@@ -65,9 +65,9 @@ function Order({navigation}) {
       });
 
       dispatch(CartActions.clearItems());
-      
+
       navigation.navigate('Profile');
-      
+
       dispatch(ToastActionsCreators.displayInfo('Pedido enviado com sucesso!'));
     } catch (err) {
       dispatch(

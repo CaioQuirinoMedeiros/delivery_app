@@ -8,7 +8,7 @@ export const Background = styled.View`
 `;
 
 export const OrderItemsList = styled.FlatList.attrs({
-  contentContainerStyle: { paddingVertical: 10, alignItems: 'center' },
+  contentContainerStyle: {paddingVertical: 10, alignItems: 'center'},
 })`
   background: transparent;
 `;

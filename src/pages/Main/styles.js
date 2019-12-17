@@ -6,7 +6,7 @@ export const Container = styled.View`
 `;
 
 export const CategoriesList = styled.FlatList.attrs({
-  contentContainerStyle: { paddingVertical: 10, alignItems: 'center' },
+  contentContainerStyle: {paddingVertical: 10, alignItems: 'center'},
 })``;
 
 export const Category = styled.TouchableOpacity.attrs({
