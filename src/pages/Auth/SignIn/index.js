@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import logo from '../../../assets/images/logo.png'
+import logo from '../../../assets/images/logo3x.png'
 
 import AuthActions from '../../../store/ducks/auth'
 
