@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { StatusBar } from 'react-native'
 
-import { Background, Gradient } from './styles'
+import { Wrapper, Background, Gradient } from './styles'
 import headerBackground from './assets/images/header-background.png'
 import fundo from './assets/images/fundo.jpg'
 
@@ -14,7 +14,7 @@ function App () {
   const Routes = createNavigator(auth.signedIn)
 
   return (
-    <>
+    <Wrapper>
       <StatusBar
         backgroundColor='#0B2031'
         barStyle='light-content'
@@ -23,7 +23,7 @@ function App () {
       <Background source={auth.signedIn ? headerBackground : fundo} />
       {!auth.signedIn && <Gradient />}
       <Routes />
-    </>
+    </Wrapper>
   )
 }
 

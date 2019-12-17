@@ -1,13 +1,12 @@
 /* eslint-disable max-len */
-import React, {useState, useEffect} from 'react';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import {useSelector, useDispatch} from 'react-redux';
-import {REACT_APP_API_URL} from 'react-native-dotenv';
-import {ToastActionsCreators} from 'react-native-redux-toast';
+import React from 'react'
+import Icon from 'react-native-vector-icons/MaterialIcons'
+import { useSelector, useDispatch } from 'react-redux'
+import { ToastActionsCreators } from 'react-native-redux-toast'
 
-import CartTotal from '../../components/CartTotal';
-import CartActions from '../../store/ducks/cart';
-import {convertToBRL} from '../../services/currency';
+import CartTotal from '../../components/CartTotal'
+import CartActions from '../../store/ducks/cart'
+import { convertToBRL } from '../../services/currency'
 
 import {
   Container,
@@ -26,74 +25,68 @@ import {
   MainButton,
   OrderButton,
   OrderButtonText,
-  EmptyMessage,
-} from './styles';
+  EmptyMessage
+} from './styles'
 
 const calculateSubtotal = item => {
-  const subtotal = convertToBRL(item.price * item.quantity);
-  return {...item, subtotal};
-};
+  const subtotal = convertToBRL(item.price * item.quantity)
+  return { ...item, subtotal }
+}
 
-function Cart({navigation}) {
-  const items = useSelector(({cart}) =>
-    cart.data.map(item => calculateSubtotal(item)),
-  );
+function Cart ({ navigation }) {
+  const items = useSelector(({ cart }) =>
+    cart.data.map(item => calculateSubtotal(item))
+  )
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  function deleteItem(itemId) {
-    dispatch(CartActions.removeItem(itemId));
-    dispatch(ToastActionsCreators.displayInfo('Item exlcuído!', 1500));
+  function deleteItem (itemId) {
+    dispatch(CartActions.removeItem(itemId))
+    dispatch(ToastActionsCreators.displayInfo('Item exlcuído!', 1500))
   }
 
-  function increaseItemQuantity(itemId) {
-    dispatch(CartActions.increaseItemQuantity(itemId));
+  function increaseItemQuantity (itemId) {
+    dispatch(CartActions.increaseItemQuantity(itemId))
   }
 
-  function decreaseItemQuantity(itemId) {
-    dispatch(CartActions.decreaseItemQuantity(itemId));
+  function decreaseItemQuantity (itemId) {
+    dispatch(CartActions.decreaseItemQuantity(itemId))
   }
 
-  function handleOrder() {
+  function handleOrder () {
     if (items.length) {
-      navigation.navigate('Order');
+      navigation.navigate('Order')
     } else {
-      dispatch(ToastActionsCreators.displayError('Adicione items no carrinho'));
+      dispatch(ToastActionsCreators.displayError('Adicione items no carrinho'))
     }
   }
 
-  function renderItem({item}) {
-    console.log(item);
+  function renderItem ({ item }) {
+    console.log(item)
     return (
       <OrderItem>
-        <ProductImage
-          source={{
-            uri: `${REACT_APP_API_URL}/uploads/${
-              item.product.image ? item.product.image.path : 'no-image.jpg'
-            }`,
-          }}
-        />
+        <ProductImage image={item.product.image} />
         <OrderInfo>
           <ProductTitle numberOfLines={1}>{item.product.name}</ProductTitle>
-          <ProductSize numberOfLines={1}>{`Tamanho: ${
-            item.size.name
-          }`}</ProductSize>
+          <ProductSize numberOfLines={1}>
+            {`Tamanho: ${item.size.name}`}
+          </ProductSize>
           <ProductPrice>{item.subtotal}</ProductPrice>
         </OrderInfo>
         <OrderQuantity>
           <QuantityButton onPress={() => increaseItemQuantity(item.id)}>
-            <Icon name="add" color="#fff" />
+            <Icon name='add' color='#fff' />
           </QuantityButton>
           <QuantityValue>{item.quantity}</QuantityValue>
           <QuantityButton onPress={() => decreaseItemQuantity(item.id)}>
-            <Icon name="remove" color="#fff" />
+            <Icon name='remove' color='#fff' />
           </QuantityButton>
         </OrderQuantity>
         <DeleteButton onPress={() => deleteItem(item.id)}>
-          <Icon name="delete-forever" size={24} color="#E62638" />
+          <Icon name='delete-forever' size={24} color='#E62638' />
         </DeleteButton>
       </OrderItem>
-    );
+    )
   }
 
   return (
@@ -110,7 +103,7 @@ function Cart({navigation}) {
       />
       <Footer>
         <MainButton onPress={() => navigation.navigate('Main')}>
-          <Icon name="add-shopping-cart" size={24} color="#555" />
+          <Icon name='add-shopping-cart' size={24} color='#555' />
         </MainButton>
 
         <OrderButton onPress={handleOrder}>
@@ -118,12 +111,12 @@ function Cart({navigation}) {
         </OrderButton>
       </Footer>
     </Container>
-  );
+  )
 }
 
 Cart.navigationOptions = {
   title: 'Carrinho',
-  headerRight: <CartTotal />,
-};
+  headerRight: <CartTotal />
+}
 
-export default Cart;
+export default Cart

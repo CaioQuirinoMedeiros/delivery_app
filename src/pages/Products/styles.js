@@ -1,17 +1,19 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
+
+import ImageComponent from '../../components/Image'
 
 export const Container = styled.View`
   height: 100%;
   width: 100%;
-`;
+`
 
 export const ProductsList = styled.FlatList.attrs({
-  contentContainerStyle: {paddingVertical: 10},
-  columnWrapperStyle: {justifyContent: 'space-evenly'},
-})``;
+  contentContainerStyle: { paddingVertical: 10 },
+  columnWrapperStyle: { justifyContent: 'space-evenly' }
+})``
 
 export const Product = styled.TouchableOpacity.attrs({
-  activeOpacity: 0.7,
+  activeOpacity: 0.7
 })`
   align-items: center;
   border-radius: 10px;
@@ -19,19 +21,10 @@ export const Product = styled.TouchableOpacity.attrs({
   padding: 12px;
   width: 160px;
   background: #fff;
-
-  shadow-opacity: 0.7;
-  shadow-radius: 11px;
-  shadow-color: #000;
-  shadow-offset: 10px 10px;
   elevation: 8;
-`;
+`
 
-export const ProductImage = styled.Image`
-  width: 130px;
-  height: 130px;
-  border-radius: 10px;
-`;
+export const ProductImage = styled(ImageComponent).attrs({ size: 120 })``
 
 export const ProductTitle = styled.Text`
   color: #0b2031;
@@ -39,4 +32,4 @@ export const ProductTitle = styled.Text`
   font-weight: bold;
   text-align: center;
   margin: 5px 0;
-`;
+`

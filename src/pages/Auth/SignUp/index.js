@@ -97,7 +97,7 @@ function SignUp ({ navigation }) {
           placeholder='Senha secreta - confirmação'
           value={passwordConfirmation}
           onChangeText={text => setPasswordConfirmation(text)}
-          secureTextEntry={passwordVisible}
+          secureTextEntry={!passwordVisible}
           autoCapitalize='none'
           autoCorrect={false}
           returnKeyType='send'

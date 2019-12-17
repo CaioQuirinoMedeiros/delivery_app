@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import { REACT_APP_API_URL } from 'react-native-dotenv'
 import { ToastActionsCreators } from 'react-native-redux-toast'
 
 import api from '../../services/api'
@@ -52,13 +51,7 @@ function Main ({ navigation }) {
   function renderCategory ({ item }) {
     return (
       <Category onPress={() => handleCategorySelect(item.id)}>
-        <CategoryImage
-          source={{
-            uri: `${REACT_APP_API_URL}/uploads/${
-              item.image ? item.image.path : 'no-image.jpg'
-            }`
-          }}
-        />
+        <CategoryImage image={item.image} />
         <CategoryInfo>
           <CategoryInfoWrapper>
             <CategoryTitle>{item.name}</CategoryTitle>

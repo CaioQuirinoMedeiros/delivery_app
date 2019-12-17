@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { REACT_APP_API_URL } from 'react-native-dotenv'
 import { ToastActionsCreators } from 'react-native-redux-toast'
 
 import api from '../../services/api'
@@ -48,13 +47,7 @@ function Products ({ navigation }) {
   function renderProduct ({ item }) {
     return (
       <Product onPress={() => handleProductSelect(item.id)}>
-        <ProductImage
-          source={{
-            uri: `${REACT_APP_API_URL}/uploads/${
-              item.image ? item.image.path : 'no-image.jpg'
-            }`
-          }}
-        />
+        <ProductImage image={item.image} />
         <ProductTitle>{item.name}</ProductTitle>
       </Product>
     )

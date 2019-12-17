@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { REACT_APP_API_URL } from 'react-native-dotenv'
 import { ToastActionsCreators } from 'react-native-redux-toast'
 
 import CartActions from '../../store/ducks/cart'
@@ -55,6 +54,7 @@ function Sizes ({ navigation }) {
     const itemInCart = items.find(item => item.id === sizeId)
 
     if (itemInCart) {
+      dispatch(CartActions.increaseItemQuantity(itemInCart.id))
       navigation.navigate('Cart')
     } else {
       try {
@@ -72,13 +72,7 @@ function Sizes ({ navigation }) {
   function renderSize ({ item }) {
     return (
       <Size onPress={() => handleSizeSelect(item.id)}>
-        <SizeImage
-          source={{
-            uri: `${REACT_APP_API_URL}/uploads/${
-              item.size.image ? item.size.image.path : 'no-image.jpg'
-            }`
-          }}
-        />
+        <SizeImage image={item.size.image} />
         <SizeTitle>{item.size.name}</SizeTitle>
         <SizePrice>{item.price}</SizePrice>
       </Size>
