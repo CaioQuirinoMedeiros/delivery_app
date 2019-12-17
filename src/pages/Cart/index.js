@@ -62,7 +62,6 @@ function Cart ({ navigation }) {
   }
 
   function renderItem ({ item }) {
-    console.log(item)
     return (
       <OrderItem>
         <ProductImage image={item.product.image} />
