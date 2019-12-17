@@ -1,8 +1,6 @@
 # Delivery - App
 
-![login](https://github.com/CaioQuirinoMedeiros/delivery_app/blob/master/screenshots/login.jpg)
-<img src="https://github.com/CaioQuirinoMedeiros/delivery_app/blob/master/screenshots/login.jpg" width="160">
-<img src="https://raw.githubusercontent.com/CaioQuirinoMedeiros/delivery_app/master/screenshots/login.jpg" width="160">
+<img src="/screenshots/login.jpg" width="160"> <img src="/screenshots/register.jpg" width="160"> <img src="/screenshots/categories.jpg" width="160"> <img src="/screenshots/products.jpg" width="160"> <img src="/screenshots/sizes.jpg" width="160"> <img src="/screenshots/cart.jpg" width="160"> <img src="/screenshots/order.jpg" width="160"> <img src="/screenshots/profile.jpg" width="160"> <img src="/screenshots/order-detail.jpg" width="160">
 
 Aplicativo de delivery desenvolvido com React Native. Consome uma API rest em AdonisJS que permite o usuário (cliente) se autenticar e realizar pedidos.
 
