@@ -4,7 +4,7 @@
 
 ## About
 
-This project is the final challenge of [Rocketseat bootcamp course](https://rocketseat.com.br/bootcamp). Consists of a delivery application of a fantasy pizza parlor.
+This project is part of the final challenge of [Rocketseat bootcamp course](https://rocketseat.com.br/bootcamp). It consists in a delivery application of a fantasy pizza parlor.
 
 ## Integration
 
