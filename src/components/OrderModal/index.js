@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 
-import {convertToBRL} from '../../services/currency';
+import { convertToBRL } from '../../services/currency'
 
 import {
   ModalContainer,
@@ -19,18 +19,18 @@ import {
   OrderDetail,
   OrderDetailTitle,
   OrderDetailText,
-  Background,
-} from './styles';
+  Background
+} from './styles'
 
-const OrderModal = ({order, closeOrder}) => {
+const OrderModal = ({ order, closeOrder }) => {
   const items = order.items.map(item => ({
     ...item,
     subtotal: convertToBRL(Number(item.subtotal)),
     product_size: {
       ...item.product_size,
-      price: convertToBRL(Number(item.product_size.price)),
-    },
-  }));
+      price: convertToBRL(Number(item.product_size.price))
+    }
+  }))
 
   return (
     <ModalContainer visible={!!order} transparent>
@@ -39,7 +39,7 @@ const OrderModal = ({order, closeOrder}) => {
           <OrderDetailsHeader>
             <ItemSubtotal>{order.total}</ItemSubtotal>
             <CloseButton onPress={closeOrder}>
-              <Icon name="clear" size={20} color="#fff" />
+              <Icon name='clear' size={20} color='#fff' />
             </CloseButton>
           </OrderDetailsHeader>
           <OrderDetail>
@@ -61,19 +61,20 @@ const OrderModal = ({order, closeOrder}) => {
           showsVerticalScrollIndicator={false}
           data={items}
           keyExtractor={item => String(item.id)}
-          renderItem={({item}) => (
+          renderItem={({ item }) => (
             <OrderItem>
               <ProductImage
                 source={{
                   uri:
-                    'https://optepizza.com.br/wp-content/uploads/opte-pizza.png',
+                    'https://optepizza.com.br/wp-content/uploads/opte-pizza.png'
                 }}
               />
               <OrderInfo>
                 <ProductTitle>{item.product_size.product.name}</ProductTitle>
                 <ProductDetail>{`Price: ${
                   item.product_size.price
-                }`}</ProductDetail>
+                }`}
+                </ProductDetail>
                 <ProductDetail>{`Quantity: ${item.quantity}`}</ProductDetail>
               </OrderInfo>
               <ItemSubtotal>{item.subtotal}</ItemSubtotal>
@@ -82,8 +83,8 @@ const OrderModal = ({order, closeOrder}) => {
         />
       </Background>
     </ModalContainer>
-  );
-};
+  )
+}
 
 OrderModal.propTypes = {
   order: PropTypes.shape({
@@ -93,18 +94,18 @@ OrderModal.propTypes = {
         subtotal: PropTypes.string,
         product_size: PropTypes.shape({
           price: PropTypes.string,
-          name: PropTypes.string,
-        }),
-      }),
+          name: PropTypes.string
+        })
+      })
     ),
     total: PropTypes.string,
     created_at: PropTypes.string,
     observations: PropTypes.string,
     district: PropTypes.string,
     street: PropTypes.string,
-    number: PropTypes.number,
+    number: PropTypes.number
   }).isRequired,
-  closeOrder: PropTypes.func.isRequired,
-};
+  closeOrder: PropTypes.func.isRequired
+}
 
-export default OrderModal;
+export default OrderModal

@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "standard --verbose"
+    "lint": "standard --verbose",
+    "fixcode": "standard --fix"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.7.1",
